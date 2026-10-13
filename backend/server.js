@@ -1,0 +1,57 @@
+import express from "express";
+import cors from "cors";
+import mongoose from "mongoose";
+import cookieParser from "cookie-parser";
+import { configDotenv } from "dotenv";
+import connectDb from "./config/db.js";
+import productRoutes from "./routes/ProductRoutes.js";
+import authRoutes from "./routes/authRoutes.js";
+import cartRoutes from "./routes/cartRoutes.js";
+import orderRoutes from "./routes/orderRoutes.js";
+import path from "path";
+import { fileURLToPath } from "url";
+import addressRouter from "./routes/addressRoutes.js";
+import categoryRoutes from "./routes/categoryRoutes.js";
+import collectionRoutes from "./routes/collectionRoutes.js";
+configDotenv();
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+const app = express();
+const port = process.env.PORT || 4000;
+
+app.use(
+  cors({
+    origin: [
+      "https://roshnicreations.com",
+      "http://localhost:5173",
+      "http://localhost:5174",
+      "https://www.roshnicreations.com",
+      "https://dev.roshnicreations.com",
+      "https://www.dev.roshnicreations.com",
+    ],
+    credentials: true,
+  }),
+);
+app.use(express.json());
+connectDb();
+
+app.use(cookieParser());
+
+app.use("/uploads", express.static(path.join(__dirname, "uploads")));
+app.use("/api/product", productRoutes);
+app.use("/api/auth", authRoutes);
+app.use("/api/cart", cartRoutes);
+app.use("/api/order", orderRoutes);
+app.use("/api/addresses", addressRouter);
+app.use("/api/categories", categoryRoutes);
+app.use("/api/collections", collectionRoutes);
+
+app.listen(port, () => {
+  console.log(`Server is listening at port ${port}`);
+});
+
+app.get("/", (req, res) => {
+  res.send("Welcome to Roshni Creations developed by Satyaansh Softech");
+});

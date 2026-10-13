@@ -1,0 +1,33 @@
+/**
+ * roshni-categories.css
+ * -----------------------------------------------------------------------
+ * Minimal, non-Tailwind CSS for the ROSHNI category section.
+ *
+ * Everything visual (color, spacing, layout, states) lives in Tailwind
+ * utility classes inside RoshniCategories.jsx. This file only covers the
+ * handful of things Tailwind utilities cannot express:
+ *
+ *  1. Hiding the scrollbar on the mobile swipe strip while keeping it
+ *     scrollable and accessible (no first-party Tailwind utility for this).
+ *  2. The custom easing curve reused across every morph transition, kept
+ *     here as a CSS custom property so it stays in exactly one place.
+ * -----------------------------------------------------------------------
+ */
+
+:root {
+  /* Shared "luxury" easing curve — slow start, decisive settle. Used by
+     every hover/focus transition in RoshniCategories.jsx via an arbitrary
+     Tailwind value: tw:ease-[var(--roshni-ease)] */
+  --roshni-ease: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* Hides the scrollbar on the mobile horizontal strip without disabling
+   scrolling or keyboard/assistive-tech access to the content. */
+.roshni-no-scrollbar {
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* older Edge/IE */
+}
+
+.roshni-no-scrollbar::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, newer Edge */
+}

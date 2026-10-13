@@ -1,0 +1,357 @@
+/* =========================================================
+   ROSHNI — SHOP BY COLLECTION
+   Advanced shape / editorial interaction
+   ========================================================= */
+
+.shop-by-collection {
+  --roshni-ivory: #f8f4ec;
+  --roshni-pearl: #fffdf8;
+  --roshni-gold: #bfa66a;
+  --roshni-gold-deep: #96783d;
+  --roshni-blue: #E2CA92;
+  --roshni-green: #F8F3E7;
+  --roshni-teal: #003f40;
+  --roshni-dark: #002c35;
+}
+
+
+/* =========================================================
+   HORIZONTAL MOBILE SCROLLER
+   ========================================================= */
+
+.category-strip {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.category-strip::-webkit-scrollbar {
+  display: none;
+}
+
+
+/* =========================================================
+   CATEGORY WIDTH
+   ========================================================= */
+
+.category-letter {
+  width: clamp(145px, 15vw, 270px);
+}
+
+.category-letter__visual {
+  aspect-ratio: 0.68;
+}
+
+
+/* =========================================================
+   IMAGE
+   ========================================================= */
+
+.category-letter__image {
+  transform:
+    scale(1.025)
+    translate3d(0, 0, 0);
+
+  filter:
+    saturate(0.92)
+    contrast(1.02);
+
+  /*
+    Important:
+    the image follows the same shape as the letter.
+  */
+  clip-path: var(--letter-shape);
+
+  transition:
+    clip-path 680ms cubic-bezier(0.16, 1, 0.3, 1),
+    transform 700ms cubic-bezier(0.16, 1, 0.3, 1),
+    filter 600ms ease;
+}
+
+
+/* =========================================================
+   BRAND TINT
+   ========================================================= */
+
+.category-letter__tint {
+  background:
+    linear-gradient(
+      135deg,
+      rgba(0, 59, 82, 0.12),
+      transparent 48%,
+      rgba(18, 96, 71, 0.08)
+    );
+
+  clip-path: var(--letter-shape);
+
+  transition:
+    clip-path 680ms cubic-bezier(0.16, 1, 0.3, 1),
+    opacity 500ms ease;
+}
+
+
+/* =========================================================
+   GOLD FRAME
+   ========================================================= */
+
+.category-letter__frame {
+  border: 1px solid rgba(191, 166, 106, 0.72);
+
+  clip-path: var(--letter-shape);
+
+  transition:
+    clip-path 680ms cubic-bezier(0.16, 1, 0.3, 1),
+    inset 680ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+
+/* =========================================================
+   LETTER
+   ========================================================= */
+
+.category-letter__letter {
+  color: rgba(255, 253, 248, 0.92);
+
+  font-size: clamp(130px, 13vw, 250px);
+  line-height: 0.8;
+  letter-spacing: -0.08em;
+
+  /*
+    The letter is only the visual typography.
+    The actual image itself is clipped to the letter geometry.
+  */
+  text-shadow:
+    0 1px 0 rgba(0, 44, 53, 0.18);
+
+  opacity: 0.9;
+
+  transition:
+    opacity 500ms ease,
+    transform 680ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+
+/* =========================================================
+   EXPLORE BUTTON
+   ========================================================= */
+
+.category-letter__explore {
+  opacity: 0;
+  transform: translate3d(0, 7px, 0) scale(0.88);
+
+  transition:
+    opacity 450ms ease 120ms,
+    transform 650ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+
+/* =========================================================
+   CATEGORY LABEL
+   ========================================================= */
+
+.category-letter__title {
+  color: var(--roshni-blue);
+
+  transform: translate3d(0, 0, 0);
+
+  transition:
+    color 400ms ease,
+    transform 500ms cubic-bezier(0.16, 1, 0.3, 1),
+    letter-spacing 500ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+
+.category-letter__line {
+  background: var(--roshni-gold);
+
+  transform-origin: center;
+
+  transition:
+    width 500ms cubic-bezier(0.16, 1, 0.3, 1),
+    transform 500ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+
+/* =========================================================
+   HOVER / FOCUS
+   ========================================================= */
+
+.category-letter:hover .category-letter__image,
+.category-letter:focus-visible .category-letter__image,
+.category-letter--active .category-letter__image {
+  clip-path: var(--circle-shape);
+
+  transform:
+    scale(1.12)
+    translate3d(0, 0, 0);
+
+  filter:
+    saturate(1.03)
+    contrast(1.06);
+}
+
+
+.category-letter:hover .category-letter__tint,
+.category-letter:focus-visible .category-letter__tint,
+.category-letter--active .category-letter__tint {
+  clip-path: var(--circle-shape);
+
+  opacity: 0.45;
+}
+
+
+.category-letter:hover .category-letter__frame,
+.category-letter:focus-visible .category-letter__frame,
+.category-letter--active .category-letter__frame {
+  clip-path: var(--circle-shape);
+
+  inset: 1px;
+}
+
+
+.category-letter:hover .category-letter__letter,
+.category-letter:focus-visible .category-letter__letter,
+.category-letter--active .category-letter__letter {
+  opacity: 0;
+
+  transform:
+    scale(0.86)
+    translate3d(0, 0, 0);
+}
+
+
+.category-letter:hover .category-letter__explore,
+.category-letter:focus-visible .category-letter__explore,
+.category-letter--active .category-letter__explore {
+  opacity: 1;
+
+  transform:
+    translate3d(0, 0, 0)
+    scale(1);
+}
+
+
+.category-letter:hover .category-letter__title,
+.category-letter:focus-visible .category-letter__title,
+.category-letter--active .category-letter__title {
+  color: var(--roshni-green);
+
+  letter-spacing: 0.27em;
+
+  transform: translate3d(0, -2px, 0);
+}
+
+
+.category-letter:hover .category-letter__line,
+.category-letter:focus-visible .category-letter__line,
+.category-letter--active .category-letter__line {
+  width: 58px;
+}
+
+
+/* =========================================================
+   OTHER FIVE LETTERS
+   ========================================================= */
+
+.category-strip:has(.category-letter--active)
+  .category-letter:not(.category-letter--active) {
+  opacity: 0.62;
+
+  transform: scale(0.965);
+
+  transition:
+    opacity 450ms ease,
+    transform 600ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+
+/* =========================================================
+   KEYBOARD FOCUS
+   ========================================================= */
+
+.category-letter:focus-visible {
+  outline: 1px solid var(--roshni-gold);
+  outline-offset: 8px;
+}
+
+
+/* =========================================================
+   TABLET
+   ========================================================= */
+
+@media (max-width: 1023px) and (min-width: 640px) {
+  .category-letter {
+    width: clamp(135px, 15vw, 190px);
+  }
+
+  .category-letter__visual {
+    aspect-ratio: 0.7;
+  }
+
+  .category-letter__letter {
+    font-size: clamp(115px, 14vw, 180px);
+  }
+}
+
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media (max-width: 639px) {
+  .category-strip {
+    scroll-snap-type: x mandatory;
+    overscroll-behavior-x: contain;
+  }
+
+  .category-letter {
+    width: min(76vw, 330px);
+
+    scroll-snap-align: center;
+  }
+
+  .category-letter__visual {
+    aspect-ratio: 0.72;
+  }
+
+  .category-letter__letter {
+    font-size: min(62vw, 245px);
+  }
+
+  /*
+    Keep the interaction strong on touch devices.
+    The focused/active state provides the same visual
+    feedback without requiring a mouse.
+  */
+  .category-letter__explore {
+    opacity: 0.9;
+    transform: none;
+  }
+}
+
+
+/* =========================================================
+   REDUCED MOTION
+   ========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+  .category-letter__image,
+  .category-letter__tint,
+  .category-letter__frame,
+  .category-letter__letter,
+  .category-letter__explore,
+  .category-letter__title,
+  .category-letter__line,
+  .category-letter {
+    transition: none !important;
+  }
+
+  .category-letter__image {
+    transform: none !important;
+  }
+
+  .category-letter:hover .category-letter__image,
+  .category-letter:focus-visible .category-letter__image,
+  .category-letter--active .category-letter__image {
+    clip-path: var(--letter-shape);
+  }
+}

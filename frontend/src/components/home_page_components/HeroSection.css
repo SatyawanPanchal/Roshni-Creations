@@ -1,0 +1,83 @@
+.p-galleria-item {
+  animation: heroFade 1.2s ease-in-out;
+}
+
+@keyframes heroFade {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+.p-galleria,
+.p-galleria-content,
+.p-galleria-item,
+.p-galleria-item-container {
+  width: 100%;
+  height: 100%;
+}
+
+.p-galleria-item-container picture {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+/* button animation */
+
+.shop-pill-shine {
+  overflow: hidden;
+}
+
+.shop-pill-shine::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -75%;
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(
+    120deg,
+    transparent,
+    rgba(255, 255, 255, 0.65),
+    transparent
+  );
+  transform: skewX(-20deg);
+  pointer-events: none;
+  animation: shopShine 3s ease-in-out infinite;
+}
+
+@keyframes shopShine {
+  0% {
+    left: -75%;
+  }
+  60%,
+  100% {
+    left: 130%;
+  }
+}
+
+.shop-pill-arrow {
+  display: inline-block;
+  animation: arrowNudge 1.2s ease-in-out infinite;
+}
+
+@keyframes arrowNudge {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  50% {
+    transform: translateX(4px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .shop-pill-shine::after,
+  .shop-pill-arrow {
+    animation: none;
+  }
+}

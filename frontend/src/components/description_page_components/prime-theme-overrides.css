@@ -1,0 +1,149 @@
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Manrope:wght@400;500;600;700&display=swap');
+
+        .rc-pd { font-family: 'Manrope', sans-serif; }
+        .rc-pd .rc-serif { font-family: 'Cormorant Garamond', serif; }
+
+        /* ---- thumbnails ---- */
+        .rc-pd .rc-thumb {
+          border: 1px solid var(--brand-border);
+          border-radius: 4px;
+          overflow: hidden;
+          padding: 2px;
+          background: #fff;
+          transition: border-color 0.2s ease, box-shadow 0.2s ease;
+        }
+        .rc-pd .rc-thumb-active {
+          border-color: #AD8A3F;
+          box-shadow: 0 0 0 1px #AD8A3F;
+        }
+
+        /* ---- wishlist icon button ---- */
+        .rc-pd .rc-wishlist.p-button {
+          background: rgba(250, 247, 241, 0.9);
+          border: 1px solid #AD8A3F;
+          color: var(--brand-forest-dark);
+        }
+        .rc-pd .rc-wishlist.p-button:hover {
+          background: #fff;
+        }
+
+        /* ---- tags ---- */
+        .rc-pd .rc-tag-craft.p-tag {
+          background: var(--brand-charcoal);
+          color: var(--brand-cream);
+          border: 1px solid #AD8A3F;
+          font-family: 'Manrope', sans-serif;
+          font-weight: 500;
+          font-size: 0.72rem;
+          letter-spacing: 0.04em;
+          padding: 0.4rem 0.7rem;
+          border-radius: 2px;
+        }
+        .rc-pd .rc-tag-bestseller.p-tag {
+          background: transparent;
+          color: #AD8A3F;
+          border: 1px solid #AD8A3F;
+          font-weight: 600;
+          font-size: 0.7rem;
+          letter-spacing: 0.03em;
+          border-radius: 999px;
+          padding: 0.3rem 0.7rem;
+        }
+        .rc-pd .rc-tag-bestseller .p-tag-icon { color: #AD8A3F; }
+        .rc-pd .rc-tag-save.p-tag {
+          background: var(--brand-sand-bg);
+          color: var(--brand-sand-text);
+          font-weight: 600;
+          font-size: 0.75rem;
+          border-radius: 2px;
+          padding: 0.3rem 0.6rem;
+        }
+        .rc-pd .rc-tag-stock.p-tag {
+          background: var(--brand-sand-bg);
+          color: var(--brand-sand-text);
+          font-weight: 600;
+          font-size: 0.72rem;
+          border-radius: 999px;
+          padding: 0.3rem 0.75rem;
+        }
+
+        /* ---- quantity stepper ---- */
+        .rc-pd .rc-qty-btn.p-button {
+          color: var(--brand-forest-dark);
+          border-radius: 999px;
+        }
+        .rc-pd .rc-qty-btn.p-button:enabled:hover {
+          background: var(--brand-sage-bg);
+          color: var(--brand-forest);
+        }
+        .rc-pd .rc-qty-input .p-inputtext {
+          text-align: center;
+          border: none;
+          background: transparent;
+          font-weight: 600;
+          color: #1C2B28;
+          font-family: 'Manrope', sans-serif;
+        }
+        .rc-pd .rc-qty-input .p-inputtext:focus {
+          box-shadow: none;
+        }
+
+        /* ---- CTA buttons ---- */
+        .rc-pd .rc-btn-primary.p-button {
+          background: var(--brand-forest-dark);
+          border: 1px solid var(--brand-forest-dark);
+          color: var(--brand-cream);
+          font-weight: 600;
+          letter-spacing: 0.02em;
+          transition: background 0.2s ease, border-color 0.2s ease;
+        }
+        .rc-pd .rc-btn-primary.p-button:enabled:hover {
+          background: var(--brand-forest);
+          border-color:#AD8A3F;
+        }
+        .rc-pd .rc-btn-primary .p-button-icon { color:#AD8A3F; }
+        .rc-pd .rc-btn-secondary.p-button {
+          background: transparent;
+          border: 1px solid#AD8A3F;
+          color: #1C2B28;
+          font-weight: 600;
+          letter-spacing: 0.02em;
+          transition: background 0.2s ease, color 0.2s ease;
+        }
+        .rc-pd .rc-btn-secondary.p-button:enabled:hover {
+          background: var(--brand-forest-dark);
+          border-color: var(--brand-forest-dark);
+          color: var(--brand-cream);
+        }
+
+        /* ---- accordion reskin ---- */
+        .rc-pd .rc-accordion .p-accordion-tab {
+          border: none;
+          border-bottom: 1px solid var(--brand-border);
+        }
+        .rc-pd .rc-accordion .p-accordion-header-link,
+        .rc-pd .rc-accordion .p-accordion-header .p-accordion-header-link {
+          background: transparent !important;
+          border: none !important;
+          color: #1C2B28 !important;
+          font-family: 'Cormorant Garamond', serif;
+          font-size: 1.15rem;
+          font-weight: 600;
+          padding: 1.1rem 0 !important;
+          box-shadow: none !important;
+        }
+        .rc-pd .rc-accordion .p-accordion-header:not(.p-disabled).p-highlight .p-accordion-header-link {
+          color: var(--brand-forest-dark) !important;
+        }
+        .rc-pd .rc-accordion .p-accordion-toggle-icon {
+          color:#AD8A3F !important;
+        }
+        .rc-pd .rc-accordion .p-accordion-content {
+          border: none !important;
+          background: transparent !important;
+          padding: 0 0 1.25rem 0 !important;
+          color: var(--brand-muted);
+          font-size: 0.92rem;
+          line-height: 1.7;
+        }
+  

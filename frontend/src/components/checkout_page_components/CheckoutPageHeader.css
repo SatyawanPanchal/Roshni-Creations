@@ -1,0 +1,45 @@
+.checkout-breadcrumb .p-breadcrumb-list {
+  display: flex;
+  align-items: center;
+  gap: 0;
+}
+
+.checkout-breadcrumb .p-menuitem-link {
+  padding: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  text-decoration: none !important;
+}
+
+.checkout-breadcrumb .p-menuitem-text {
+  font-size: 12px;
+  font-weight: 400;
+  letter-spacing: 0.02em;
+  color: #6f6a65;
+}
+
+.checkout-breadcrumb
+  .p-breadcrumb-chevron {
+  margin: 0 8px;
+  color: #9c8a78;
+  font-size: 10px;
+}
+
+/* Make the final breadcrumb slightly darker */
+.checkout-breadcrumb
+  .p-breadcrumb-list
+  .p-menuitem:last-child
+  .p-menuitem-text {
+  color: #222222;
+  font-weight: 500;
+}
+
+/* =========================
+   MOBILE
+========================= */
+
+@media (max-width: 767px) {
+  .checkout-breadcrumb .p-menuitem-text {
+    font-size: 11px;
+  }
+}
