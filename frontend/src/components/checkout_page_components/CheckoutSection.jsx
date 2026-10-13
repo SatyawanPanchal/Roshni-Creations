@@ -489,9 +489,9 @@ const CheckoutSection = () => {
                       Contact Information
                     </h2>
 
-                    <p className="tw:mt-1 tw:text-sm tw:text-gray-500">
+                    {/* <p className="tw:mt-1 tw:text-sm tw:text-gray-500">
                       Your contact information is taken from your account.
-                    </p>
+                    </p> */}
                   </div>
 
                   <ShieldCheck

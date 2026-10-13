@@ -24,12 +24,9 @@ const port = process.env.PORT || 4000;
 app.use(
   cors({
     origin: [
-      "https://roshnicreations.com",
+      "https://dev.roshnicreations.com",
       "http://localhost:5173",
       "http://localhost:5174",
-      "https://www.roshnicreations.com",
-      "https://dev.roshnicreations.com",
-      "https://www.dev.roshnicreations.com",
     ],
     credentials: true,
   }),

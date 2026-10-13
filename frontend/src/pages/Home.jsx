@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import React from "react";
+import React, { useEffect } from "react";
 
 import {
   trendingProducts,
@@ -20,22 +20,40 @@ import ShopByCollection from "../components/home_page_components/ShopByCollectio
 import RoshniCategories from "../components/category/RoshniCategories";
 import LatestJewellery from "../components/home_page_components/LatestJewellery";
 import CompactCategoryCircles from "../components/home_page_components/CompactCategoryCircles";
+import { useLocation } from "react-router-dom";
 // import NewArrivals from "../components/home_page_components/NewArrivals";
 
 const Home = () => {
+  const location = useLocation();
+
+  useEffect(() => {
+    if (!location.hash) return;
+
+    const sectionId = decodeURIComponent(location.hash.slice(1));
+    let secondFrame;
+
+    const firstFrame = requestAnimationFrame(() => {
+      secondFrame = requestAnimationFrame(() => {
+        document.getElementById(sectionId)?.scrollIntoView({
+          behavior: "smooth",
+          block: "start",
+        });
+      });
+    });
+
+    return () => {
+      cancelAnimationFrame(firstFrame);
+      if (secondFrame) cancelAnimationFrame(secondFrame);
+    };
+  }, [location.pathname, location.hash]);
+
   return (
     <>
-      <div className="tw:flex tw:flex-col tw:items-center tw:gap-8 tw:md:gap-15">
+      <div className="tw:flex tw:w-full tw:max-w-full tw:flex-col tw:items-center tw:gap-8 tw:md:gap-15">
         <HeroSection />
-        {/* <NewArrivals /> */}
-        {/* <NewArrivals/> */}
         <CompactCategoryCircles />
         <LatestJewellery />
         <ShopByCollection />
-
-        {/* <RoshniCategories/> */}
-        {/* <VirtualStudioJewelry /> */}
-
         <Bestsellers />
         <FestiveSaleBanner />
         <Trending />
@@ -48,3 +66,22 @@ const Home = () => {
 };
 
 export default Home;
+
+//  <div className="tw:flex tw:flex-col tw:items-center tw:gap-8 tw:md:gap-15">
+        {/* <HeroSection /> */}
+        {/* <NewArrivals /> */}
+        {/* <NewArrivals/>
+        <CompactCategoryCircles />
+        <LatestJewellery />
+        <ShopByCollection /> */}
+
+        {/* <RoshniCategories/> */}
+        {/* <VirtualStudioJewelry /> */}
+
+        {/* <Bestsellers />
+        <FestiveSaleBanner />
+        <Trending />
+        <ShopTheLook />
+        <RoshniInMotion />
+        <CustomerReviews />
+      </div> */}

@@ -4,10 +4,15 @@
 import { AiFillInstagram } from "react-icons/ai";
 import { MdAdminPanelSettings } from "react-icons/md";
 import logo from "../../assets/logo.webp";
-import { Link } from "react-router-dom";
-
+import { Link, useNavigate } from "react-router-dom";
 
 export default function Footer() {
+  const navigate = useNavigate();
+
+  const handleExploreClick = (sectionId) => {
+    navigate(`/#${sectionId}`);
+  };
+
   // const [email, setEmail] = useState("");
   // const [subscribed, setSubscribed] = useState(false);
 
@@ -76,10 +81,18 @@ export default function Footer() {
         </div>
 
         {/* Explore */}
-        <FooterColumn title="Explore" links={exploreLinks} />
+        <FooterColumn
+          title="Explore"
+          links={exploreLinks}
+          onExploreClick={handleExploreClick}
+        />
 
         {/* Assistance */}
-        <FooterColumn title="Assistance" links={assistanceLinks} basePath="/assistance" />
+        <FooterColumn
+          title="Assistance"
+          links={assistanceLinks}
+          basePath="/assistance"
+        />
 
         {/* Stay Connected */}
         <div className="tw:flex tw:flex-col tw:gap-4">
@@ -142,32 +155,37 @@ export default function Footer() {
   );
 }
 
-function FooterColumn({ title, links, basePath }) {
+function FooterColumn({ title, links, basePath, onExploreClick }) {
   const toSlug = (text) =>
-    text.toLowerCase().replace(/[^a-z]+/g, "-").replace(/^-|-$/g, "");
+    text
+      .toLowerCase()
+      .replace(/[^a-z]+/g, "-")
+      .replace(/^-|-$/g, "");
 
   return (
     <div className="tw:flex tw:flex-col tw:gap-4">
       <h3 className="tw:text-sm tw:font-semibold tw:tracking-wide tw:text-[#1F1F1A]">
         {title}
       </h3>
+
       <ul className="tw:flex tw:flex-col tw:gap-3">
         {links.map((link) => (
           <li key={link}>
-            {basePath ? (
+            {onExploreClick ? (
+              <button
+                type="button"
+                onClick={() => onExploreClick(link)}
+                className="tw:text-sm tw:!text-[#5B5B54] tw:hover:!text-[#0F5C4A] tw:transition-colors tw:text-left"
+              >
+                {link}
+              </button>
+            ) : (
               <Link
                 to={`${basePath}/${toSlug(link)}`}
                 className="tw:text-sm tw:!text-[#5B5B54] tw:hover:!text-[#0F5C4A] tw:transition-colors"
               >
                 {link}
               </Link>
-            ) : (
-              <a
-                href={`#${link}`}
-                className="tw:text-sm tw:!text-[#5B5B54] tw:hover:!text-[#0F5C4A] tw:transition-colors"
-              >
-                {link}
-              </a>
             )}
           </li>
         ))}

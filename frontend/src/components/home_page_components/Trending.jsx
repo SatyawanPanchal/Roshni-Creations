@@ -11,22 +11,24 @@ export default function Trending() {
   return (
     <section
       id="Trending"
-      className="tw:bg-neutral-50 tw:px-4 tw:sm:px-8 tw:lg:px-16  tw:sm:py-14"
+      className="tw:w-full tw:max-w-full tw:bg-neutral-50 tw:px-4 tw:sm:px-8 tw:lg:px-16 tw:py-10 tw:sm:py-14"
     >
       {/* Scoped plain CSS — avoids relying on Tailwind's prefix/arbitrary-value
           handling for the flex<->grid breakpoint switch, so it works regardless
           of Tailwind version/config. */}
       <style>{`
         #Trending .rc-scroll-row {
-          display: flex;
-          gap: 1rem;
-          overflow-x: auto;
-          overflow-y: hidden;
-          padding-bottom: 1rem;
-          scroll-snap-type: x mandatory;
-          scroll-behavior: smooth;
-          -webkit-overflow-scrolling: touch;
-        }
+  display: flex;
+  gap: 1rem;
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding-bottom: 1rem;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+  min-width: 0;
+  max-width: 100%;
+}
         #Trending .rc-scroll-row::-webkit-scrollbar { height: 6px; }
         #Trending .rc-scroll-row::-webkit-scrollbar-thumb {
           background: #d6d3d1;
@@ -53,7 +55,7 @@ export default function Trending() {
         }
       `}</style>
 
-      <div className="tw:mx-auto tw:max-w-7xl">
+      <div className="tw:mx-auto tw:w-full tw:min-w-0 tw:max-w-7xl">
         {/* Header */}
         <div className="tw:flex tw:items-baseline tw:justify-between tw:gap-4">
           <h2 className="tw:font-serif tw:text-3xl tw:sm:text-4xl tw:lg:text-5xl tw:text-gray-900">

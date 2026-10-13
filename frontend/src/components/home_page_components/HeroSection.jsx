@@ -81,9 +81,9 @@ const HeroSection = () => {
       </section>
 
       <button
-  type="button"
-  onClick={() => navigate("/products")}
-  className="
+        type="button"
+        onClick={() => navigate("/products")}
+        className="
     shop-pill-shine
     tw:absolute
     tw:left-1/2
@@ -107,9 +107,12 @@ const HeroSection = () => {
     tw:cursor-pointer
     tw:active:scale-95
   "
->
-  Shop all products <span className="shop-pill-arrow" aria-hidden="true">→</span>
-</button>
+      >
+        Shop all products{" "}
+        <span className="shop-pill-arrow" aria-hidden="true">
+          →
+        </span>
+      </button>
     </div>
   );
 };

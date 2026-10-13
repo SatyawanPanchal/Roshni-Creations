@@ -10,7 +10,6 @@ import ProductCardCopy from "../jewellery_page_components/ProductCardCopy";
 export default function LatestJewellery() {
   const navigate = useNavigate();
   const { products, loading, error, fetchProducts } = useProducts();
-  
 
   // Get the 4 newest products from the main product data
   const latestProducts = useMemo(() => {
@@ -20,22 +19,24 @@ export default function LatestJewellery() {
   return (
     <section
       id="LatestJewellery"
-      className="tw:bg-neutral-50 tw:px-4 tw:sm:px-8 tw:lg:px-16 tw:py-10 tw:sm:py-14"
+      className="tw:w-full tw:max-w-full tw:bg-neutral-50 tw:px-4 tw:sm:px-8 tw:lg:px-16 tw:py-10 tw:sm:py-14"
     >
       {/* Scoped plain CSS — same pattern as Bestsellers/Trending. Avoids
           relying on Tailwind's prefix/arbitrary-value handling for the
           flex<->grid breakpoint switch, so it works regardless of config. */}
       <style>{`
   #LatestJewellery .rc-scroll-row {
-   display: flex;
-          gap: 1rem;
-          overflow-x: auto;
-          overflow-y: hidden;
-          padding-bottom: 1rem;
-          scroll-snap-type: x mandatory;
-          scroll-behavior: smooth;
-          -webkit-overflow-scrolling: touch;
-  }
+  display: flex;
+  gap: 1rem;
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding-bottom: 1rem;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+  min-width: 0;
+  max-width: 100%;
+}
 
   #LatestJewellery .rc-scroll-row::-webkit-scrollbar {
     height: 6px;
@@ -77,7 +78,7 @@ export default function LatestJewellery() {
   }
 `}</style>
 
-      <div className="tw:mx-auto tw:max-w-7xl">
+      <div className="tw:mx-auto tw:w-full tw:min-w-0 tw:max-w-7xl">
         {/* Header */}
         <div className="tw:flex tw:items-baseline tw:justify-between tw:gap-4">
           <h2 className="tw:font-serif tw:text-3xl tw:sm:text-4xl tw:lg:text-5xl tw:text-gray-900">
