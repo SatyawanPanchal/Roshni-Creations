@@ -21,13 +21,10 @@ const __dirname = path.dirname(__filename);
 const app = express();
 const port = process.env.PORT || 4000;
 
+const allowedOrigins = process.env.FRONTEND_URLS.split(",");
 app.use(
   cors({
-    origin: [
-      "https://dev.roshnicreations.com",
-      "http://localhost:5173",
-      "http://localhost:5174",
-    ],
+    origin: allowedOrigins,
     credentials: true,
   }),
 );
