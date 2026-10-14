@@ -4,7 +4,7 @@ import { getCategories } from "../../services/categoryService";
 
 const menuItems = [
   {
-    label: "Jewellery",
+    label: " All Jewellery",
     dropdown: true,
     type: "all",
   },

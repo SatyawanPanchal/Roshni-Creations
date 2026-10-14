@@ -6,6 +6,7 @@ import ProductCard from "../jewellery_page_components/ProductCard";
 import { useMemo } from "react";
 import { useProducts } from "../../context/productContext";
 import ProductCardCopy from "../jewellery_page_components/ProductCardCopy";
+import { Button } from "primereact/button";
 
 export default function LatestJewellery() {
   const navigate = useNavigate();
@@ -24,8 +25,8 @@ export default function LatestJewellery() {
       {/* Scoped plain CSS — same pattern as Bestsellers/Trending. Avoids
           relying on Tailwind's prefix/arbitrary-value handling for the
           flex<->grid breakpoint switch, so it works regardless of config. */}
-      
-<style>{`
+
+      <style>{`
   #LatestJewellery {
     width: 100%;
     max-width: 100%;
@@ -130,6 +131,16 @@ export default function LatestJewellery() {
             </div>
           ))}
         </div>
+      </div>
+
+      <div className="tw:mt-8 tw:flex tw:justify-center tw:w-full">
+        <Button
+          label="Show All"
+          icon="pi pi-arrow-right"
+          iconPos="right"
+          onClick={() => navigate("/products")}
+          className="tw:rounded-none tw:!bg-[#23392c] tw:px-6 tw:py-3 tw:text-white tw:transition-colors tw:hover:!bg-[#182a1f] tw:!border-[#182a1f]"
+        />
       </div>
     </section>
   );

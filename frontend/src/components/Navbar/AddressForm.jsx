@@ -9,11 +9,7 @@ import { X } from "lucide-react";
 
 import { useAddress } from "../../context/AddressContext.jsx";
 
-const AddressForm = ({
-  address = null,
-  onSuccess,
-  onCancel,
-}) => {
+const AddressForm = ({ address = null, onSuccess, onCancel }) => {
   const { createAddress, editAddress } = useAddress();
 
   const isEditMode = Boolean(address);
@@ -103,27 +99,23 @@ const AddressForm = ({
     if (!formData.firstName.trim()) {
       newErrors.firstName = "First name is required";
     } else if (formData.firstName.trim().length < 2) {
-      newErrors.firstName =
-        "First name must contain at least 2 characters";
+      newErrors.firstName = "First name must contain at least 2 characters";
     }
 
     if (!formData.lastName.trim()) {
       newErrors.lastName = "Last name is required";
     } else if (formData.lastName.trim().length < 2) {
-      newErrors.lastName =
-        "Last name must contain at least 2 characters";
+      newErrors.lastName = "Last name must contain at least 2 characters";
     }
 
     if (!formData.phone.trim()) {
       newErrors.phone = "Phone number is required";
     } else if (!/^[6-9]\d{9}$/.test(formData.phone.trim())) {
-      newErrors.phone =
-        "Enter a valid 10-digit Indian mobile number";
+      newErrors.phone = "Enter a valid 10-digit Indian mobile number";
     }
 
     if (!formData.flat.trim()) {
-      newErrors.flat =
-        "House / flat / building details are required";
+      newErrors.flat = "House / flat / building details are required";
     }
 
     if (!formData.street.trim()) {
@@ -181,10 +173,7 @@ const AddressForm = ({
       let result;
 
       if (isEditMode) {
-        result = await editAddress(
-          address._id,
-          payload
-        );
+        result = await editAddress(address._id, payload);
       } else {
         result = await createAddress(payload);
       }
@@ -204,11 +193,7 @@ const AddressForm = ({
   // --------------------------------------------------
 
   const inputClass = (field) =>
-    `tw:w-full ${
-      errors[field]
-        ? "tw:!border-red-500"
-        : ""
-    }`;
+    `tw:w-full ${errors[field] ? "tw:!border-red-500" : ""}`;
 
   return (
     <div className="tw:w-full">
@@ -216,9 +201,7 @@ const AddressForm = ({
       <div className="tw:mb-6 tw:flex tw:items-start tw:justify-between tw:gap-4">
         <div>
           <h2 className="tw:text-xl tw:font-semibold tw:text-[#37252C]">
-            {isEditMode
-              ? "Edit Address"
-              : "Add New Address"}
+            {isEditMode ? "Edit Address" : "Add New Address"}
           </h2>
 
           <p className="tw:mt-1 tw:text-sm tw:text-gray-500">
@@ -239,10 +222,7 @@ const AddressForm = ({
         )}
       </div>
 
-      <form
-        onSubmit={handleSubmit}
-        className="tw:flex tw:flex-col tw:gap-5"
-      >
+      <form onSubmit={handleSubmit} className="tw:flex tw:flex-col tw:gap-5">
         {/* NAME */}
         <div className="tw:grid tw:grid-cols-1 tw:gap-4 tw:sm:grid-cols-2">
           <div>
@@ -256,12 +236,7 @@ const AddressForm = ({
             <InputText
               id="firstName"
               value={formData.firstName}
-              onChange={(e) =>
-                handleChange(
-                  "firstName",
-                  e.target.value
-                )
-              }
+              onChange={(e) => handleChange("firstName", e.target.value)}
               placeholder="Enter first name"
               className={inputClass("firstName")}
             />
@@ -284,12 +259,7 @@ const AddressForm = ({
             <InputText
               id="lastName"
               value={formData.lastName}
-              onChange={(e) =>
-                handleChange(
-                  "lastName",
-                  e.target.value
-                )
-              }
+              onChange={(e) => handleChange("lastName", e.target.value)}
               placeholder="Enter last name"
               className={inputClass("lastName")}
             />
@@ -318,7 +288,7 @@ const AddressForm = ({
               onChange={(e) =>
                 handleChange(
                   "phone",
-                  e.target.value.replace(/\D/g, "").slice(0, 10)
+                  e.target.value.replace(/\D/g, "").slice(0, 10),
                 )
               }
               placeholder="10-digit mobile number"
@@ -346,12 +316,7 @@ const AddressForm = ({
               id="addressType"
               value={formData.addressType}
               options={addressTypes}
-              onChange={(e) =>
-                handleChange(
-                  "addressType",
-                  e.value
-                )
-              }
+              onChange={(e) => handleChange("addressType", e.value)}
               className="tw:w-full"
               placeholder="Select address type"
             />
@@ -359,7 +324,7 @@ const AddressForm = ({
         </div>
 
         {/* COUNTRY */}
-        <div>
+        {/* <div>
           <label
             htmlFor="country"
             className="tw:mb-2 tw:block tw:text-sm tw:font-medium tw:text-[#37252C]"
@@ -373,7 +338,7 @@ const AddressForm = ({
             disabled
             className="tw:w-full"
           />
-        </div>
+        </div> */}
 
         {/* FLAT */}
         <div>
@@ -387,9 +352,7 @@ const AddressForm = ({
           <InputText
             id="flat"
             value={formData.flat}
-            onChange={(e) =>
-              handleChange("flat", e.target.value)
-            }
+            onChange={(e) => handleChange("flat", e.target.value)}
             placeholder="House no., flat, building name"
             className={inputClass("flat")}
           />
@@ -413,9 +376,7 @@ const AddressForm = ({
           <InputText
             id="street"
             value={formData.street}
-            onChange={(e) =>
-              handleChange("street", e.target.value)
-            }
+            onChange={(e) => handleChange("street", e.target.value)}
             placeholder="Street, locality, area"
             className={inputClass("street")}
           />
@@ -428,8 +389,11 @@ const AddressForm = ({
         </div>
 
         {/* CITY / STATE / PIN */}
-        <div className="tw:grid tw:grid-cols-1 tw:gap-4 tw:hover:grid-cols-3">
-          <div>
+
+        {/* CITY / STATE / PIN */}
+        <div className="tw:grid tw:grid-cols-1 tw:gap-4 sm:tw:grid-cols-2 lg:tw:grid-cols-3">
+          {/* CITY */}
+          <div className="tw:min-w-0">
             <label
               htmlFor="city"
               className="tw:mb-2 tw:block tw:text-sm tw:font-medium tw:text-[#37252C]"
@@ -440,9 +404,7 @@ const AddressForm = ({
             <InputText
               id="city"
               value={formData.city}
-              onChange={(e) =>
-                handleChange("city", e.target.value)
-              }
+              onChange={(e) => handleChange("city", e.target.value)}
               placeholder="City"
               className={inputClass("city")}
             />
@@ -454,7 +416,8 @@ const AddressForm = ({
             )}
           </div>
 
-          <div>
+          {/* STATE */}
+          <div className="tw:min-w-0">
             <label
               htmlFor="state"
               className="tw:mb-2 tw:block tw:text-sm tw:font-medium tw:text-[#37252C]"
@@ -465,9 +428,7 @@ const AddressForm = ({
             <InputText
               id="state"
               value={formData.state}
-              onChange={(e) =>
-                handleChange("state", e.target.value)
-              }
+              onChange={(e) => handleChange("state", e.target.value)}
               placeholder="State"
               className={inputClass("state")}
             />
@@ -479,7 +440,8 @@ const AddressForm = ({
             )}
           </div>
 
-          <div>
+          {/* PIN CODE */}
+          <div className="tw:min-w-0">
             <label
               htmlFor="pincode"
               className="tw:mb-2 tw:block tw:text-sm tw:font-medium tw:text-[#37252C]"
@@ -493,9 +455,7 @@ const AddressForm = ({
               onChange={(e) =>
                 handleChange(
                   "pincode",
-                  e.target.value
-                    .replace(/\D/g, "")
-                    .slice(0, 6)
+                  e.target.value.replace(/\D/g, "").slice(0, 6),
                 )
               }
               placeholder="6-digit PIN"
@@ -527,12 +487,7 @@ const AddressForm = ({
           <InputText
             id="landmark"
             value={formData.landmark}
-            onChange={(e) =>
-              handleChange(
-                "landmark",
-                e.target.value
-              )
-            }
+            onChange={(e) => handleChange("landmark", e.target.value)}
             placeholder="Nearby landmark"
             className="tw:w-full"
           />
@@ -544,12 +499,7 @@ const AddressForm = ({
             id="isDefault"
             type="checkbox"
             checked={formData.isDefault}
-            onChange={(e) =>
-              handleChange(
-                "isDefault",
-                e.target.checked
-              )
-            }
+            onChange={(e) => handleChange("isDefault", e.target.checked)}
             className="tw:mt-1 tw:h-4 tw:w-4 tw:accent-[#C2185B]"
           />
 
@@ -562,8 +512,7 @@ const AddressForm = ({
             </label>
 
             <p className="tw:mt-1 tw:text-xs tw:text-gray-500">
-              This address will be selected automatically
-              during checkout.
+              This address will be selected automatically during checkout.
             </p>
           </div>
         </div>

@@ -96,23 +96,10 @@ const CheckoutSection = () => {
   // --------------------------------------------------
   // SELECT ADDRESS
   // --------------------------------------------------
-
   const handleSelectAddress = (address) => {
     if (!address?._id) return;
-
     setSelectedAddressId(address._id);
-
-    setErrors((prev) => ({
-      ...prev,
-      address: "",
-    }));
-
-    toast.current?.show({
-      severity: "success",
-      summary: "Address Selected",
-      detail: "Delivery address selected successfully.",
-      life: 2000,
-    });
+    setErrors((prev) => ({ ...prev, address: "" }));
   };
 
   // --------------------------------------------------
@@ -289,8 +276,8 @@ const CheckoutSection = () => {
       rzp1.on("payment.failed", function (response) {
         alert(response.error.code);
         alert(response.error.description);
-        rzp1.close()
-        navigate("/") //failure page
+        rzp1.close();
+        navigate("/"); //failure page
       });
 
       rzp1.open();
@@ -347,8 +334,7 @@ const CheckoutSection = () => {
       return;
     }
 
-    await paymentIntegration()
-
+    await paymentIntegration();
   };
 
   const orderCreation = async (isPaymentTrue) => {
@@ -362,7 +348,7 @@ const CheckoutSection = () => {
       const payload = {
         addressId: selectedAddressId,
         paymentMethod: "ONLINE",
-        paymentStatus:isPaymentTrue && "Paid"
+        paymentStatus: isPaymentTrue && "Paid",
       };
 
       // --------------------------------------------
@@ -502,72 +488,77 @@ const CheckoutSection = () => {
 
                 <Divider />
 
-                <div className="tw:grid tw:grid-cols-1 tw:gap-4 tw:sm:grid-cols-2">
-                  {/* EMAIL */}
+                {isAuthenticated && (
+                  <div className="tw:grid tw:grid-cols-1 tw:gap-4 tw:sm:grid-cols-2">
+                    {/* EMAIL */}
 
-                  <div>
-                    <label
-                      htmlFor="checkout-email"
-                      className="tw:mb-2 tw:block tw:text-sm tw:font-medium tw:text-[#37252C]"
-                    >
-                      Email Address
-                    </label>
+                    <div>
+                      <label
+                        htmlFor="checkout-email"
+                        className="tw:mb-2 tw:block tw:text-sm tw:font-medium tw:text-[#37252C]"
+                      >
+                        Email Address
+                      </label>
 
-                    <span className="tw:relative tw:block">
-                      <Mail
-                        size={17}
-                        className="tw:absolute tw:left-3 tw:top-1/2 tw:z-10 tw:-translate-y-1/2 tw:text-gray-400"
-                      />
+                      <span className="tw:relative tw:block">
+                        <Mail
+                          size={17}
+                          className="tw:absolute tw:left-3 tw:top-1/2 tw:z-10 tw:-translate-y-1/2 tw:text-gray-400"
+                        />
 
-                      <InputText
-                        id="checkout-email"
-                        value={user?.email || ""}
-                        readOnly
-                        className="tw:w-full tw:!pl-10 tw:bg-gray-50"
-                      />
-                    </span>
+                        <InputText
+                          id="checkout-email"
+                          value={user?.email || ""}
+                          readOnly
+                          className="tw:w-full tw:!pl-10 tw:bg-gray-50"
+                        />
+                      </span>
 
-                    {errors.email && (
-                      <small className="tw:mt-1 tw:block tw:text-xs tw:text-red-500">
-                        {errors.email}
-                      </small>
-                    )}
+                      {errors.email && (
+                        <small className="tw:mt-1 tw:block tw:text-xs tw:text-red-500">
+                          {errors.email}
+                        </small>
+                      )}
+                    </div>
+
+                    {/* PHONE */}
+
+                    <div>
+                      <label
+                        htmlFor="checkout-phone"
+                        className="tw:mb-2 tw:block tw:text-sm tw:font-medium tw:text-[#37252C]"
+                      >
+                        Mobile Number
+                      </label>
+
+                      <span className="tw:relative tw:block">
+                        <Phone
+                          size={17}
+                          className="tw:absolute tw:left-3 tw:top-1/2 tw:z-10 tw:-translate-y-1/2 tw:text-gray-400"
+                        />
+
+                        <InputText
+                          id="checkout-phone"
+                          value={user?.phone || ""}
+                          readOnly
+                          className="tw:w-full tw:!pl-10 tw:bg-gray-50"
+                        />
+                      </span>
+
+                      {errors.phone && (
+                        <small className="tw:mt-1 tw:block tw:text-xs tw:text-red-500">
+                          {errors.phone}
+                        </small>
+                      )}
+                    </div>
                   </div>
-
-                  {/* PHONE */}
-
-                  <div>
-                    <label
-                      htmlFor="checkout-phone"
-                      className="tw:mb-2 tw:block tw:text-sm tw:font-medium tw:text-[#37252C]"
-                    >
-                      Mobile Number
-                    </label>
-
-                    <span className="tw:relative tw:block">
-                      <Phone
-                        size={17}
-                        className="tw:absolute tw:left-3 tw:top-1/2 tw:z-10 tw:-translate-y-1/2 tw:text-gray-400"
-                      />
-
-                      <InputText
-                        id="checkout-phone"
-                        value={user?.phone || ""}
-                        readOnly
-                        className="tw:w-full tw:!pl-10 tw:bg-gray-50"
-                      />
-                    </span>
-
-                    {errors.phone && (
-                      <small className="tw:mt-1 tw:block tw:text-xs tw:text-red-500">
-                        {errors.phone}
-                      </small>
-                    )}
-                  </div>
-                </div>
+                )}
 
                 {!isAuthenticated && (
-                  <div className="tw:mt-4 tw:border tw:border-[#0C3F37] tw:bg-[#EFF4F3] tw:p-4">
+                  <div
+                    onClick={() => setShowLogin(true)}
+                    className="tw:mt-4 tw:border tw:border-[#0C3F37] tw:bg-[#EFF4F3] tw:p-4 tw:cursor-pointer"
+                  >
                     <p className="tw:text-sm tw:text-[#37252C]">
                       Please login to continue for checkout.
                     </p>
@@ -603,25 +594,15 @@ const CheckoutSection = () => {
                     DELIVERY ADDRESS
                 ================================================= */}
 
+              {/* DELIVERY ADDRESS */}
               <div className="tw:border tw:border-gray-200 tw:bg-white tw:p-5 tw:sm:p-6">
-                <div className="tw:flex tw:flex-col tw:gap-4 tw:sm:flex-row tw:sm:items-start tw:sm:justify-between">
-                  <div>
-                    <h2 className="tw:text-lg tw:font-semibold tw:text-[#37252C]">
-                      Delivery Address
-                    </h2>
+                <h2 className="tw:text-lg tw:font-semibold tw:text-[#37252C]">
+                  Delivery Address
+                </h2>
 
-                    <p className="tw:mt-1 tw:text-sm tw:text-gray-500">
-                      Select where you want your order delivered.
-                    </p>
-                  </div>
-
-                  <Button
-                    label="Add Address"
-                    icon={<Plus size={16} />}
-                    onClick={handleAddAddress}
-                    className="tw:!w-full tw:sm:!w-auto tw:!border-[#0C3F37] tw:!bg-[#0C3F37] tw:!px-4 tw:!py-2.5 tw:!text-sm tw:!font-medium tw:!text-white tw:!shadow-none"
-                  />
-                </div>
+                <p className="tw:mt-1 tw:text-sm tw:text-gray-500">
+                  Select where you want your order delivered.
+                </p>
 
                 <Divider />
 
@@ -634,64 +615,28 @@ const CheckoutSection = () => {
                 )}
 
                 {addressLoading ? (
-                  <div className="tw:grid tw:grid-cols-1 tw:gap-4 tw:lg:grid-cols-2">
-                    <div className="tw:h-40 tw:animate-pulse tw:bg-gray-100" />
-                    <div className="tw:h-40 tw:animate-pulse tw:bg-gray-100" />
-                  </div>
+                  <div className="tw:h-40 tw:animate-pulse tw:bg-gray-100" />
                 ) : addresses?.length ? (
                   <SavedAddresses
+                    selectionMode
                     selectedAddressId={selectedAddressId}
                     onSelectAddress={handleSelectAddress}
                     onAddAddress={handleAddAddress}
-                    selectionMode
                   />
                 ) : (
-                  <div className="tw:flex tw:min-h-[220px] tw:flex-col tw:items-center tw:justify-center tw:border tw:border-dashed tw:border-gray-300 tw:px-6 tw:text-center">
-                    <div className="tw:mb-4 tw:flex tw:h-14 tw:w-14 tw:items-center tw:justify-center tw:rounded-full tw:bg-[#FFF5F8]">
-                      <MapPin size={25} className="tw:text-[#0C3F37]" />
-                    </div>
+                  <div className="tw:flex tw:min-h-[200px] tw:flex-col tw:items-center tw:justify-center tw:border tw:border-dashed tw:border-gray-300 tw:px-6 tw:text-center">
+                    <MapPin size={25} className="tw:text-[#0C3F37]" />
 
-                    <h3 className="tw:text-base tw:font-semibold tw:text-[#37252C]">
-                      No saved addresses
-                    </h3>
-
-                    <p className="tw:mt-1 tw:max-w-sm tw:text-sm tw:leading-relaxed tw:text-gray-500">
-                      Add a delivery address to continue with your order.
+                    <p className="tw:mt-2 tw:text-sm tw:text-gray-500">
+                      No saved addresses. Add one to continue.
                     </p>
 
                     <Button
                       label="Add New Address"
                       icon={<Plus size={16} />}
                       onClick={handleAddAddress}
-                      text
-                      className="tw:mt-3 tw:!text-[#0C3F37]"
+                      className={`tw:mt-3 ${ACCENT_BUTTON_CLASS}`}
                     />
-                  </div>
-                )}
-
-                {/* SELECTED ADDRESS PREVIEW */}
-
-                {selectedAddress && (
-                  <div className="tw:mt-5 tw:border tw:border-[#414C4A] tw:bg-[#E3F0EE] tw:p-4">
-                    <div className="tw:flex tw:items-start tw:gap-3">
-                      <Check
-                        size={18}
-                        className="tw:mt-0.5 tw:shrink-0 tw:text-[#0C3F37]"
-                      />
-
-                      <div className="tw:min-w-0">
-                        <p className="tw:text-sm tw:font-semibold tw:text-[#37252C]">
-                          Delivering to {selectedAddress.firstName}{" "}
-                          {selectedAddress.lastName}
-                        </p>
-
-                        <p className="tw:mt-1 tw:text-sm tw:leading-6 tw:text-gray-600">
-                          {selectedAddress.flat}, {selectedAddress.street},{" "}
-                          {selectedAddress.city}, {selectedAddress.state} -{" "}
-                          {selectedAddress.pincode}
-                        </p>
-                      </div>
-                    </div>
                   </div>
                 )}
               </div>

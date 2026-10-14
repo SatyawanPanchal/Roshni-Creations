@@ -49,7 +49,7 @@ const Home = () => {
 
   return (
     <>
-      <div className="tw:flex tw:w-full tw:max-w-full tw:flex-col tw:items-center tw:gap-0 tw:md:gap-5">
+      <div className="tw:flex tw:w-full tw:max-w-full tw:flex-col tw:items-center tw:justify-center tw:gap-0 tw:md:gap-5">
         <HeroSection />
         <CompactCategoryCircles />
         <LatestJewellery />

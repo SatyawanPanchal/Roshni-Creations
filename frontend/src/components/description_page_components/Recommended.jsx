@@ -1,263 +1,56 @@
+/* eslint-disable no-unused-vars */
 import { useMemo } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom"; // changed (no more useLocation)
 
 import { useProducts } from "../../context/productContext";
+import ProductCard from "../jewellery_page_components/ProductCard";
 import { useCart } from "../../context/CartContext";
 
-import ProductCard from "../jewellery_page_components/ProductCard";
+const getCategoryKey = (category) => {
+  if (!category) return "";
+  if (typeof category === "string") return category.toLowerCase();
+  return String(
+    category._id || category.name || category.title || "",
+  ).toLowerCase();
+};
 
 export default function Recommended() {
   const { products } = useProducts();
+  const { id: productId } = useParams(); // gets the id from the URL
   const { cartItems } = useCart();
   const location = useLocation();
 
   const recommendedProducts = useMemo(() => {
-    if (!products?.length) {
-      return [];
-    }
+    if (!products?.length) return [];
 
-    // ============================================================
-    // FIND SOURCE PRODUCTS
-    // ============================================================
-
-    let sourceProducts = [];
-
-    /*
-     * ------------------------------------------------------------
-     * PRODUCT DESCRIPTION PAGE
-     *
-     * Example:
-     * /products/6ab35e9...
-     * ------------------------------------------------------------
-     */
-
-    if (location.pathname.includes("/products/")) {
-      const productId = location.pathname.split("/products/")[1];
-
-      const currentProduct = products.find(
-        (product) => String(product._id || product.id) === String(productId),
-      );
-
-      if (currentProduct) {
-        sourceProducts = [currentProduct];
-      }
-    } else if (location.pathname.includes("/checkout")) {
-
-    /*
-     * ------------------------------------------------------------
-     * CHECKOUT PAGE
-     *
-     * Use products currently inside the cart.
-     * ------------------------------------------------------------
-     */
-      sourceProducts = cartItems
-        ?.map((cartItem) => {
-          const productId = cartItem.productId || cartItem.id;
-
-          return products.find(
-            (product) =>
-              String(product._id || product.id) === String(productId),
-          );
-        })
-        .filter(Boolean);
-    } else if (
-
-    /*
-     * ------------------------------------------------------------
-     * ORDER CONFIRMATION
-     *
-     * Read the last order saved in localStorage.
-     * ------------------------------------------------------------
-     */
-      location.pathname.includes("/orderConfirmed") ||
-      location.pathname.includes("/order-confirmation")
-    ) {
-      try {
-        const savedOrder = localStorage.getItem("roshni_last_order");
-
-        if (savedOrder) {
-          const lastOrder = JSON.parse(savedOrder);
-
-          sourceProducts =
-            lastOrder?.items
-              ?.map((item) => {
-                const productId =
-                  item.productId || item.product?._id || item.product?.id;
-
-                return products.find(
-                  (product) =>
-                    String(product._id || product.id) === String(productId),
-                );
-              })
-              .filter(Boolean) || [];
-        }
-      } catch (error) {
-        console.error("Failed to read last order:", error);
-      }
-    }
-
-    /*
-     * ============================================================
-     * NO SOURCE PRODUCT
-     * ============================================================
-     *
-     * If there is no current product/cart/order,
-     * simply show available products.
-     */
-
-    if (!sourceProducts.length) {
-      return products
-        .filter((product) => product.availability !== "out-of-stock")
-        .slice(0, 4);
-    }
-
-    // IDs of products already being used as recommendation source
-    const sourceIds = new Set(
-      sourceProducts.map((product) => String(product._id || product.id)),
+    const currentProduct = products.find(
+      (p) => String(p._id || p.id) === String(productId),
     );
 
-    /*
-     * ============================================================
-     * SCORE PRODUCTS
-     * ============================================================
-     */
+    // products that can be shown (not current, not out of stock)
+    const others = products.filter(
+      (p) =>
+        String(p._id || p.id) !== String(productId) &&
+        p.availability !== "out-of-stock",
+    );
 
-    const scoredProducts = products
-      .filter(
-        (product) =>
-          !sourceIds.has(String(product._id || product.id)) &&
-          product.availability !== "out-of-stock",
-      )
-      .map((product) => {
-        let score = 0;
+    // no current product (e.g. other pages) -> just show some products
+    if (!currentProduct) return others.slice(0, 4);
 
-        /*
-         * Compare this product against every source product.
-         *
-         * Example:
-         *
-         * Cart:
-         * - Jhumka
-         * - Necklace
-         *
-         * A product matching both gets a higher score.
-         */
+    const currentCategory = getCategoryKey(currentProduct.category);
 
-        sourceProducts.forEach((sourceProduct) => {
-          // ------------------------------------------------------
-          // SAME CATEGORY
-          // ------------------------------------------------------
+    const sameCategory = others.filter(
+      (p) => getCategoryKey(p.category) === currentCategory,
+    );
 
-          if (
-            product.category &&
-            sourceProduct.category &&
-            String(product.category).toLowerCase() ===
-              String(sourceProduct.category).toLowerCase()
-          ) {
-            score += 5;
-          }
+    const different = others.filter(
+      (p) => getCategoryKey(p.category) !== currentCategory,
+    );
+    console.log(currentProduct?.category);
 
-          // ------------------------------------------------------
-          // SAME SUBCATEGORY
-          // ------------------------------------------------------
-
-          if (
-            product.subcategory &&
-            sourceProduct.subcategory &&
-            String(product.subcategory).toLowerCase() ===
-              String(sourceProduct.subcategory).toLowerCase()
-          ) {
-            score += 4;
-          }
-
-          // ------------------------------------------------------
-          // SAME MATERIAL
-          // ------------------------------------------------------
-
-          if (
-            product.material &&
-            sourceProduct.material &&
-            String(product.material).toLowerCase() ===
-              String(sourceProduct.material).toLowerCase()
-          ) {
-            score += 2;
-          }
-
-          // ------------------------------------------------------
-          // SAME COLLECTION
-          // ------------------------------------------------------
-
-          if (
-            Array.isArray(product.collections) &&
-            Array.isArray(sourceProduct.collections)
-          ) {
-            const sharedCollections = product.collections.filter((collection) =>
-              sourceProduct.collections.some(
-                (sourceCollection) =>
-                  String(collection).toLowerCase() ===
-                  String(sourceCollection).toLowerCase(),
-              ),
-            );
-
-            score += sharedCollections.length * 3;
-          }
-        });
-
-        return {
-          product,
-          score,
-        };
-      });
-
-    /*
-     * ============================================================
-     * SORT BY RELEVANCE
-     * ============================================================
-     */
-
-    scoredProducts.sort((a, b) => {
-      return b.score - a.score;
-    });
-
-    /*
-     * ============================================================
-     * TAKE RELATED PRODUCTS
-     * ============================================================
-     */
-
-    const recommended = scoredProducts
-      .filter((item) => item.score > 0)
-      .slice(0, 4)
-      .map((item) => item.product);
-
-    /*
-     * ============================================================
-     * FALLBACK
-     * ============================================================
-     *
-     * If there aren't enough related products,
-     * fill the remaining slots with other products.
-     */
-
-    if (recommended.length < 4) {
-      const usedIds = new Set([
-        ...sourceIds,
-        ...recommended.map((product) => String(product._id || product.id)),
-      ]);
-
-      const fallbackProducts = products
-        .filter(
-          (product) =>
-            !usedIds.has(String(product._id || product.id)) &&
-            product.availability !== "out-of-stock",
-        )
-        .slice(0, 4 - recommended.length);
-
-      return [...recommended, ...fallbackProducts];
-    }
-
-    return recommended;
-  }, [products, cartItems, location.pathname]);
+    // same category first, then fill remaining slots with others
+    return [...sameCategory, ...different].slice(0, 4);
+  }, [products, productId]);
 
   // ============================================================
   // NO PRODUCTS

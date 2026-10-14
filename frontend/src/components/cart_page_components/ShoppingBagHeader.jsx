@@ -1,8 +1,10 @@
 /* eslint-disable no-unused-vars */
 import { BreadCrumb } from "primereact/breadcrumb";
 import "./ShoppingBagHeader.css";
+import { useNavigate } from "react-router-dom";
 
 const ShoppingBagHeader = () => {
+  const navigate = useNavigate();
   const breadcrumbItems = [
     {
       label: "Shopping Bag",
@@ -11,6 +13,7 @@ const ShoppingBagHeader = () => {
 
   const home = {
     label: "Home",
+    command:()=>navigate("/")
   };
 
   return (

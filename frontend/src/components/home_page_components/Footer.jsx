@@ -140,6 +140,7 @@ export default function Footer() {
           <a
             className="tw:font-bold tw:cursor-pointer"
             href="https://satyaanshsoftech.com"
+            target="_blank"
           >
             Satyaansh Softech Pvt. Ltd.
           </a>{" "}

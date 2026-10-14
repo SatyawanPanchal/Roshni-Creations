@@ -2,7 +2,6 @@ import { Rating } from "primereact/rating";
 import { Tag } from "primereact/tag";
 import { Heart } from "lucide-react";
 
-
 const reviews = [
   {
     id: 1,
@@ -90,19 +89,18 @@ const reviews = [
   },
 ];
 
-
 const CustomerReviews = () => {
   return (
     <section
       className="
-        tw:w-full
+        tw:w-[1240px]
         tw:bg-white
         tw:px-4
         tw:py-4
         tw:sm:px-6
         tw:sm:py-16
         tw:lg:px-10
-        tw:lg:py-20
+        tw:lg:py-7
       "
     >
       {/* ================= HEADER ================= */}
@@ -148,7 +146,7 @@ const CustomerReviews = () => {
       </div>
 
       <div
-  className="
+        className="
     tw:mx-auto
     tw:mt-10
     tw:flex
@@ -163,14 +161,14 @@ const CustomerReviews = () => {
     tw:sm:px-6
     tw:lg:px-10
   "
-  style={{
-    WebkitOverflowScrolling: "touch",
-  }}
->
-  {reviews.map((review) => (
-    <div
-      key={review.id}
-      className="
+        style={{
+          WebkitOverflowScrolling: "touch",
+        }}
+      >
+        {reviews.map((review) => (
+          <div
+            key={review.id}
+            className="
         tw:w-[78vw]
         tw:shrink-0
         tw:snap-start
@@ -192,7 +190,7 @@ const CustomerReviews = () => {
         tw:hover:border-[#e5ddd1]
         tw:hover:shadow-[0_8px_25px_rgba(0,0,0,0.04)]
       "
-    >
+          >
             {/* Stars */}
             <Rating
               value={5}
@@ -270,6 +268,7 @@ const CustomerReviews = () => {
       <div
         className="
           tw:mt-8
+          tw:mb-3
           tw:flex
           tw:flex-wrap
           tw:items-center
@@ -301,7 +300,14 @@ const CustomerReviews = () => {
             },
           }}
         />
-
+      </div>
+      <div
+        className="tw:flex
+          tw:flex-wrap
+          tw:items-center
+          tw:justify-center"
+        tw:gap-2
+      >
         {/* Based on */}
         <span
           className="
@@ -312,7 +318,6 @@ const CustomerReviews = () => {
         >
           Based on
         </span>
-
         {/* Reviews link */}
         <button
           type="button"
