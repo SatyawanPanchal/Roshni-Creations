@@ -54,7 +54,7 @@ const CompactCategoryCircles = () => {
   const navigate = useNavigate();
 
   return (
-    <section className="tw:w-full tw:lg:hidden tw:bg-[#08415A] tw:py-8 tw:px-4">
+    <section className="tw:w-full tw:lg:hidden tw:bg-[#08415A] tw:py-2 tw:px-4">
       <p className="tw:text-center tw:text-[10px] tw:font-medium tw:tracking-[0.3em] tw:text-[#F9F4EE] tw:uppercase tw:mb-4">
         Shop by category
       </p>

@@ -2,6 +2,7 @@ import { Rating } from "primereact/rating";
 import { Tag } from "primereact/tag";
 import { Heart } from "lucide-react";
 
+
 const reviews = [
   {
     id: 1,
@@ -27,11 +28,68 @@ const reviews = [
   {
     id: 4,
     name: "Sneha R.",
-    title: "Great packaging",
+    title: "Great Packaging",
     review:
       "The jewellery is lovely, but I was most impressed by the premium packaging. Makes it perfect for gifting.",
   },
+  {
+    id: 5,
+    name: "Ritika P.",
+    title: "Worth Every Penny",
+    review:
+      "Beautiful finishing and such elegant designs. The jewellery looks even more gorgeous in person.",
+  },
+  {
+    id: 6,
+    name: "Meera J.",
+    title: "My New Favourite",
+    review:
+      "I absolutely love my earrings. They are lightweight, comfortable, and perfect for everyday styling.",
+  },
+  {
+    id: 7,
+    name: "Kavya R.",
+    title: "So Graceful",
+    review:
+      "The design is so unique and classy. It pairs beautifully with both traditional and modern outfits.",
+  },
+  {
+    id: 8,
+    name: "Pooja A.",
+    title: "Beautiful Detailing",
+    review:
+      "You can see the care that goes into the design. The detailing is lovely, and the overall look feels premium.",
+  },
+  {
+    id: 9,
+    name: "Shreya M.",
+    title: "Perfect Gift",
+    review:
+      "Bought these as a gift and absolutely loved the presentation. The jewellery looks elegant and thoughtfully made.",
+  },
+  {
+    id: 10,
+    name: "Divya S.",
+    title: "Elegant Everyday Style",
+    review:
+      "These pieces add just the right amount of sparkle. I love how easily they complement my everyday outfits.",
+  },
+  {
+    id: 11,
+    name: "Aisha K.",
+    title: "Lovely Collection",
+    review:
+      "The collection has such beautiful designs. I found exactly what I wanted for a special family occasion.",
+  },
+  {
+    id: 12,
+    name: "Nisha T.",
+    title: "A Premium Feel",
+    review:
+      "Loved the overall look and finishing. The design feels sophisticated without being too heavy or over the top.",
+  },
 ];
+
 
 const CustomerReviews = () => {
   return (
@@ -89,40 +147,52 @@ const CustomerReviews = () => {
         </p>
       </div>
 
-      {/* ================= REVIEW CARDS =================
-          Mobile: horizontal snap-scroll. sm+: original grid, unchanged. */}
       <div
-        className="
-          tw:mx-auto tw:mt-10 tw:max-w-[1060px]
-          tw:flex tw:gap-4 tw:overflow-x-auto tw:pb-4 tw:-mx-4 tw:px-4
-          tw:snap-x tw:snap-mandatory tw:scroll-smooth
-          tw:sm:mx-auto tw:sm:px-0 tw:sm:grid tw:sm:grid-cols-2 tw:sm:overflow-visible
-          tw:sm:gap-5 tw:lg:grid-cols-4 tw:lg:gap-5
-        "
-        style={{ WebkitOverflowScrolling: "touch" }}
-      >
-        {reviews.map((review) => (
-          <div
-            key={review.id}
-            className="
-              tw:w-[78vw] tw:shrink-0 tw:snap-start tw:sm:w-auto tw:sm:shrink
-              tw:flex
-              tw:min-h-51.25
-              tw:flex-col
-              tw:items-center
-              tw:!rounded-[8px]
-              tw:border
-              tw:border-[#eee9e1]
-              tw:bg-[#faf8f4]
-              tw:px-5
-              tw:py-6
-              tw:text-center
-              tw:transition-all
-              tw:duration-300
-              tw:hover:border-[#e5ddd1]
-              tw:hover:shadow-[0_8px_25px_rgba(0,0,0,0.04)]
-            "
-          >
+  className="
+    tw:mx-auto
+    tw:mt-10
+    tw:flex
+    tw:gap-4
+    tw:overflow-x-auto
+    tw:overflow-y-hidden
+    tw:pb-4
+    tw:px-4
+    tw:snap-x
+    tw:snap-mandatory
+    tw:scroll-smooth
+    tw:sm:px-6
+    tw:lg:px-10
+  "
+  style={{
+    WebkitOverflowScrolling: "touch",
+  }}
+>
+  {reviews.map((review) => (
+    <div
+      key={review.id}
+      className="
+        tw:w-[78vw]
+        tw:shrink-0
+        tw:snap-start
+        tw:sm:w-[300px]
+        tw:lg:w-[320px]
+        tw:flex
+        tw:min-h-51.25
+        tw:flex-col
+        tw:items-center
+        tw:!rounded-[8px]
+        tw:border
+        tw:border-[#eee9e1]
+        tw:bg-[#faf8f4]
+        tw:px-5
+        tw:py-6
+        tw:text-center
+        tw:transition-all
+        tw:duration-300
+        tw:hover:border-[#e5ddd1]
+        tw:hover:shadow-[0_8px_25px_rgba(0,0,0,0.04)]
+      "
+    >
             {/* Stars */}
             <Rating
               value={5}

@@ -1,22 +1,24 @@
-import { useEffect } from "react";
+
+import { useLayoutEffect } from "react";
 import { useLocation } from "react-router-dom";
 
-const ScrollToTop = () => {
+export default function ScrollToTop() {
   const { pathname, hash } = useLocation();
 
-  useEffect(
-    () => {
-      window.scrollTo({
-        top: 0,
-        left: 0,
-        behavior: "smooth",
-      });
-    },
-    [pathname],
-    [hash],
-  );
+  useLayoutEffect(() => {
+    console.log("ScrollToTop triggered:", pathname, hash);
+    console.log("Current scroll position:", window.scrollY);
+
+    if (hash) return;
+
+    requestAnimationFrame(() => {
+      window.scrollTo(0, 0);
+      document.documentElement.scrollTop = 0;
+      document.body.scrollTop = 0;
+
+      console.log("Scroll position after reset:", window.scrollY);
+    });
+  }, [pathname, hash]);
 
   return null;
-};
-
-export default ScrollToTop;
+}

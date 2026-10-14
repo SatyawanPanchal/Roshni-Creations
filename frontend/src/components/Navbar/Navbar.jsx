@@ -16,7 +16,7 @@ const Navbar = () => {
   const { cartCount } = useCart();
 
   return (
-    <header className="tw:sticky tw:top-0 tw:z-50 tw:w-full tw:bg-white tw:shadow-sm">
+    <header className="tw:fixed tw:top-0 tw:left-0 tw:z-50 tw:w-full tw:bg-white tw:shadow-sm">
       <TopMarquee />
 
       <div className="tw:h-16 tw:border-b tw:border-[#eeeeee] tw:px-4">

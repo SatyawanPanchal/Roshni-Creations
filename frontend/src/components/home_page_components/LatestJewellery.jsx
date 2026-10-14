@@ -11,9 +11,9 @@ export default function LatestJewellery() {
   const navigate = useNavigate();
   const { products, loading, error, fetchProducts } = useProducts();
 
-  // Get the 4 newest products from the main product data
+  // Get the newest products from the main product data
   const latestProducts = useMemo(() => {
-    return products.filter((product) => product.badge === "NEW").slice(0, 3);
+    return products.filter((product) => product.badge === "NEW").slice(0, 40);
   }, [products]);
 
   return (
@@ -24,56 +24,48 @@ export default function LatestJewellery() {
       {/* Scoped plain CSS — same pattern as Bestsellers/Trending. Avoids
           relying on Tailwind's prefix/arbitrary-value handling for the
           flex<->grid breakpoint switch, so it works regardless of config. */}
-      <style>{`
-  #LatestJewellery .rc-scroll-row {
-  display: flex;
-  gap: 1rem;
-  overflow-x: auto;
-  overflow-y: hidden;
-  padding-bottom: 1rem;
-  scroll-snap-type: x mandatory;
-  scroll-behavior: smooth;
-  -webkit-overflow-scrolling: touch;
-  min-width: 0;
-  max-width: 100%;
-}
-
-  #LatestJewellery .rc-scroll-row::-webkit-scrollbar {
-    height: 6px;
+      
+<style>{`
+  #LatestJewellery {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: clip;
   }
 
-  #LatestJewellery .rc-scroll-row::-webkit-scrollbar-thumb {
-   background: #d6d3d1;
-          border-radius: 3px;
+  #LatestJewellery .rc-scroll-row {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 20px 12px;
+    width: 100%;
+    min-width: 0;
+    box-sizing: border-box;
   }
 
   #LatestJewellery .rc-scroll-item {
-    flex: 0 0 46%;
-          min-width: 46%;
-          scroll-snap-align: start;
+    width: 100%;
+    min-width: 0;
+    max-width: 100%;
+    box-sizing: border-box;
   }
 
-  @media (min-width: 640px) {
-    #LatestJewellery .rc-scroll-row {
-      display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            column-gap: 1.5rem;
-            row-gap: 2.5rem;
-            overflow: visible;
-            padding-bottom: 0;
-    }
+  #LatestJewellery .rc-scroll-item img {
+    max-width: 100%;
+    height: auto;
+  }
 
-    #LatestJewellery .rc-scroll-item {
-      flex: unset;
-      min-width: 0;
+  @media screen and (min-width: 640px) {
+    #LatestJewellery .rc-scroll-row {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      column-gap: 24px;
+      row-gap: 40px;
     }
   }
 
-  @media (min-width: 1024px) {
+  @media screen and (min-width: 1024px) {
     #LatestJewellery .rc-scroll-row {
-      grid-template-columns: repeat(3, 1fr);
-      column-gap: 2rem;
-      row-gap: 3rem;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      column-gap: 32px;
+      row-gap: 48px;
     }
   }
 `}</style>
@@ -81,7 +73,7 @@ export default function LatestJewellery() {
       <div className="tw:mx-auto tw:w-full tw:min-w-0 tw:max-w-7xl">
         {/* Header */}
         <div className="tw:flex tw:items-baseline tw:justify-between tw:gap-4">
-          <h2 className="tw:font-serif tw:text-3xl tw:sm:text-4xl tw:lg:text-5xl tw:text-gray-900">
+          <h2 className="tw:font-serif tw:text-2xl tw:sm:text-4xl tw:lg:text-5xl tw:text-gray-900">
             Latest Jewellery
           </h2>
 

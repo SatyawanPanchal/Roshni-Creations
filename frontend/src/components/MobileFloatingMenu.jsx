@@ -55,7 +55,7 @@ const MobileFloatingMenu = () => {
       className="
         tw:fixed
         tw:right-6
-        tw:bottom-[90px]
+        tw:bottom-18
         tw:z-[99999]
         tw:flex
         tw:flex-col
@@ -114,7 +114,7 @@ const MobileFloatingMenu = () => {
             }}
           >
             <i
-              className={`${item.icon} tw:text-[16px] tw:text-[#23392c]`}
+              className={`${item.icon} tw:text-[14px] tw:text-[#23392c]`}
             />
 
             <span className="tw:text-sm tw:font-medium">
@@ -130,8 +130,8 @@ const MobileFloatingMenu = () => {
         aria-label="Toggle navigation menu"
         aria-expanded={isOpen}
         className="
-          tw:w-14
-          tw:h-14
+          tw:w-10
+          tw:h-10
           tw:rounded-full
           tw:bg-[#23392c]
           tw:text-white

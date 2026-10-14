@@ -51,8 +51,7 @@ const CustomerLayout = () => {
   return (
     <>
       <Navbar />
-
-      <ScrollToTop />
+      <div className="tw:h-24 tw:lg:h-30" />
 
       {/* menu button */}
       <MobileFloatingMenu />
@@ -66,9 +65,11 @@ const CustomerLayout = () => {
           tw:fixed
           tw:right-6
           tw:bottom-6
-          tw:z-[99999]
-          tw:w-14
-          tw:h-14
+          tw:z-99999
+          tw:w-10
+          tw:h-10
+           tw:lg:w-14
+          tw:lg:h-14
           tw:bg-[#087C35]
           tw:rounded-md
           tw:flex
@@ -103,6 +104,7 @@ const App = () => {
       <Toast ref={toastRef} position="bottom-right" />
 
       <ConfirmDialog />
+      <ScrollToTop />
 
       <Routes>
         {/* ==================================================
@@ -137,7 +139,6 @@ const App = () => {
           <Route path="/assistance/:slug" element={<AssistancePage />} />
 
           <Route path="/orderConfirmed" element={<OrderConfirmationPage />} />
-          
         </Route>
 
         {/* ==================================================

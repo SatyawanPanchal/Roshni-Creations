@@ -11,7 +11,7 @@ import { PRICE_BOUNDS, SORT_OPTIONS } from "./mockProducts";
 import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import { getProducts } from "../../services/productService";
 
-const ROWS_PER_PAGE = 12;
+const ROWS_PER_PAGE = 40;
 
 const DEFAULT_PRICE_RANGE = [PRICE_BOUNDS.min, PRICE_BOUNDS.max];
 

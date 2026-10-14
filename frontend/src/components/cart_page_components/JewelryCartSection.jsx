@@ -104,9 +104,10 @@ const getMaxStock = (item) => {
    PRODUCT THUMBNAIL
 ============================================================ */
 
-function ProductThumb({ image, name }) {
+function ProductThumb({ image, name, onClick }) {
   return (
     <div
+      onClick={onClick}
       className="
         tw:h-20
         tw:w-20
@@ -118,6 +119,7 @@ function ProductThumb({ image, name }) {
         tw:bg-[#f4eedc]
         tw:border
         tw:border-[#e7e1d5]
+        tw:cursor-pointer
       "
     >
       {image ? (
@@ -233,6 +235,7 @@ function QuantityStepper({ value, maxStock, onChange }) {
 ============================================================ */
 
 function CartLine({ item, onQtyChange, onRemove, onSave }) {
+  const navigate = useNavigate();
   const product = getProduct(item);
 
   const productId = getProductId(item);
@@ -262,7 +265,11 @@ function CartLine({ item, onQtyChange, onRemove, onSave }) {
         borderColor: BORDER,
       }}
     >
-      <ProductThumb image={image} name={name} />
+      <ProductThumb
+        image={image}
+        name={name}
+        onClick={() => navigate(`/description/${productId}`)}
+      />
 
       <div
         className="
@@ -369,7 +376,7 @@ function CartLine({ item, onQtyChange, onRemove, onSave }) {
               tw:mt-2
             "
           >
-            <button
+            {/* <button
               type="button"
               onClick={() => onSave(productId)}
               className="
@@ -384,7 +391,7 @@ function CartLine({ item, onQtyChange, onRemove, onSave }) {
               }}
             >
               Save for later
-            </button>
+            </button> */}
 
             <span
               style={{

@@ -53,7 +53,7 @@ const HeroSection = () => {
   };
 
   return (
-    <div className="tw:relative tw:w-full tw:mb-8">
+    <div className="tw:hidden tw:lg:flex tw:relative tw:w-full tw:mb-8">
       <section className="tw:w-full tw:overflow-hidden tw:cursor-pointer">
         <Galleria
           value={heroImages}

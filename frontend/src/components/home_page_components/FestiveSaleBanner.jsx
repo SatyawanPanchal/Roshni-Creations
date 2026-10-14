@@ -44,7 +44,7 @@ const FestiveSaleBanner = () => {
             className="
               tw:m-0
               tw:text-white
-              tw:text-[28px]
+              tw:text-[24px]
               tw:md:text-[36px]
               tw:leading-[1.15]
               tw:font-normal
@@ -95,7 +95,7 @@ const FestiveSaleBanner = () => {
           "
           onClick={() =>
             navigate(
-              `/products/collection/${encodeURIComponent("Festive & Rakhi Edits")}`,
+              `/products/collection/${encodeURIComponent("Festive Edits")}`,
             )
           }
         />

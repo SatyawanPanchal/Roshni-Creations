@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { useState } from "react";
 
 import { Button } from "primereact/button";
@@ -171,7 +172,7 @@ const ProfileOverlay = ({ isOpen, onClose, onLogin }) => {
                 {/* MENU */}
                 <div className="tw:px-4 tw:py-4">
                   {/* MY PROFILE */}
-                  <button
+                  {/* <button
                     type="button"
                     className="tw:flex tw:w-full tw:items-center tw:gap-4 tw:px-3 tw:py-4 tw:text-left tw:transition-colors tw:hover:bg-[#FFF5F8]"
                   >
@@ -188,7 +189,7 @@ const ProfileOverlay = ({ isOpen, onClose, onLogin }) => {
                     </div>
 
                     <ChevronRight size={17} className="tw:text-gray-400" />
-                  </button>
+                  </button> */}
 
                   {/* SAVED ADDRESSES */}
                   <button
@@ -212,7 +213,7 @@ const ProfileOverlay = ({ isOpen, onClose, onLogin }) => {
                   </button>
 
                   {/* ORDERS */}
-                  <button
+                  {/* <button
                     type="button"
                     className="tw:flex tw:w-full tw:items-center tw:gap-4 tw:px-3 tw:py-4 tw:text-left tw:transition-colors tw:hover:bg-[#FFF5F8]"
                   >
@@ -229,10 +230,10 @@ const ProfileOverlay = ({ isOpen, onClose, onLogin }) => {
                     </div>
 
                     <ChevronRight size={17} className="tw:text-gray-400" />
-                  </button>
+                  </button> */}
 
                   {/* WISHLIST */}
-                  <button
+                  {/* <button
                     type="button"
                     className="tw:flex tw:w-full tw:items-center tw:gap-4 tw:px-3 tw:py-4 tw:text-left tw:transition-colors tw:hover:bg-[#FFF5F8]"
                   >
@@ -249,21 +250,25 @@ const ProfileOverlay = ({ isOpen, onClose, onLogin }) => {
                     </div>
 
                     <ChevronRight size={17} className="tw:text-gray-400" />
-                  </button>
+                  </button> */}
                 </div>
 
                 <Divider className="tw:!my-0" />
 
                 {/* LOGOUT */}
-                <div className="tw:px-4 tw:py-4">
-                  <Button
-                    label="Logout"
-                    icon={<LogOut size={17} />}
-                    text
-                    onClick={handleLogout}
-                    className="tw:w-full tw:!justify-start tw:!px-3 tw:!py-3 tw:!text-red-500"
-                  />
-                </div>
+                {user ? (
+                  <div className="tw:px-4 tw:py-4">
+                    <Button
+                      label="Logout"
+                      icon={<LogOut size={17} />}
+                      text
+                      onClick={handleLogout}
+                      className="tw:w-full tw:!justify-start tw:!px-3 tw:!py-3 tw:!text-red-500"
+                    />
+                  </div>
+                ) : (
+                  <></>
+                )}
               </>
             )}
 
@@ -326,7 +331,6 @@ const ProfileOverlay = ({ isOpen, onClose, onLogin }) => {
           </div>
         </div>
       )}
-      
     </>
   );
 };
