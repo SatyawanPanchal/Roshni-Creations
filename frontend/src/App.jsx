@@ -51,7 +51,7 @@ const CustomerLayout = () => {
   return (
     <>
       <Navbar />
-      <div className="tw:h-24 tw:lg:h-30" />
+      <div className="tw:h-24 tw:lg:h-36" />
 
       {/* menu button */}
       <MobileFloatingMenu />

@@ -42,8 +42,8 @@ const HeroSection = () => {
   tw:w-full
   tw:h-130
   tw:sm:h-120
-  tw:md:h-140
-  tw:lg:h-160
+  tw:md:h-120
+  tw:lg:h-140
   tw:object-cover
   tw:block
 "
