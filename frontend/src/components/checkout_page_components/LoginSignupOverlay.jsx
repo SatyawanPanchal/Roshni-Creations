@@ -4,7 +4,26 @@ import { Button } from "primereact/button";
 import { useState } from "react";
 import { useAuth } from "../../context/AuthContext";
 
-import loginImage from "../../images/login-jewellery.png";
+const SERIF = "'Cormorant Garamond', 'Playfair Display', Georgia, serif";
+const SANS = "'Montserrat', system-ui, sans-serif";
+
+const inputClass = `
+  tw:w-full
+  tw:!h-[56px]
+  tw:!px-5
+  tw:!text-[16px]
+  tw:!text-[#1F1F1F]
+  tw:!bg-[#FAF7F0]
+  tw:!border
+  tw:!border-[#DDD6C6]
+  tw:!rounded-[10px]
+  tw:!shadow-none
+  tw:placeholder:!text-[#B9B2A2]
+  tw:focus:!border-[#B08D2E]
+`;
+
+const labelClass =
+  "tw:block tw:text-[13px] tw:font-medium tw:uppercase tw:tracking-[0.06em] tw:text-[#1F1F1F]";
 
 const LoginSignupOverlay = ({ visible, onHide }) => {
   const { login, register, verifyEmail, resendOTP } = useAuth();
@@ -252,19 +271,22 @@ const LoginSignupOverlay = ({ visible, onHide }) => {
   if (!visible) return null;
 
   return (
-    <div className="tw:fixed tw:inset-0 tw:z-[9999] tw:flex tw:items-center tw:justify-center tw:!bg-black/50 tw:p-0 tw:sm:p-4">
+    <div className="tw:fixed tw:inset-0 tw:z-[9999] tw:flex tw:items-center tw:justify-center tw:!bg-black/70 tw:p-4 tw:overflow-y-auto">
+      <style>{`@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Montserrat:wght@400;500;600&display=swap');`}</style>
+
       <div
+        style={{ fontFamily: SANS }}
         className="
           tw:!relative
-          tw:!w-full
-          tw:!h-full
-          tw:sm:h-auto
-          tw:sm:max-w-350.5
-          tw:overflow-hidden
-          tw:bg-white
-          tw:sm:rounded-[28px]
-          tw:flex
-          tw:flex-row
+          tw:w-full
+          tw:max-w-[525px]
+          tw:my-auto
+          tw:bg-[#FAF7F0]
+          tw:rounded-[20px]
+          tw:px-10
+          tw:pt-10
+          tw:pb-8
+          tw:text-left
         "
       >
         {/* CLOSE */}
@@ -272,350 +294,332 @@ const LoginSignupOverlay = ({ visible, onHide }) => {
         <button
           type="button"
           onClick={handleClose}
+          aria-label="Close"
           className="
             tw:absolute
             tw:right-5
             tw:top-5
             tw:z-20
-            tw:w-9
-            tw:h-9
+            tw:w-8
+            tw:h-8
             tw:flex
             tw:items-center
             tw:justify-center
             tw:bg-transparent
             tw:border-0
-            tw:text-black
-            tw:text-3xl
+            tw:text-[#555555]
+            tw:text-2xl
             tw:font-light
+            tw:leading-none
             tw:cursor-pointer
           "
         >
           ×
         </button>
 
-        {/* IMAGE */}
+        {/* BRAND */}
 
-        <div
-          className="
-            tw:hidden
-            tw:md:block
-            tw:w-1/2
-            tw:min-h-[650px]
-            tw:bg-black
-          "
-        >
-          <img
-            src={loginImage}
-            alt="Roshni Creations Jewellery"
-            className="tw:w-full tw:h-full tw:object-cover"
-          />
-        </div>
+        {/* <div className="tw:text-center">
+          <h1
+            style={{ fontFamily: SERIF }}
+            className="tw:m-0 tw:text-[28px] tw:font-normal tw:uppercase tw:tracking-[0.25em] tw:text-[#1F1F1F]"
+          >
+            Roshni Creations
+          </h1>
 
-        {/* CONTENT */}
+          <div className="tw:mx-auto tw:my-4 tw:h-px tw:w-[60px] tw:bg-[#D8D1C0]" />
 
-        <div
-          className="
-            tw:w-full
-            tw:md:w-1/2
-            tw:min-h-full
-            tw:md:min-h-[650px]
-            tw:flex
-            tw:items-center
-            tw:justify-center
-            tw:px-6
-            tw:sm:px-10
-            tw:md:px-12
-            tw:lg:px-20
-            tw:py-12
-          "
-        >
-          <div className="tw:w-full tw:max-w-[520px] tw:text-center">
-            {/* OTP */}
+          <p className="tw:m-0 tw:text-[12px] tw:uppercase tw:tracking-[0.2em] tw:text-[#6B665B]">
+            Member Access
+          </p>
+        </div> */}
 
-            {step === "otp" ? (
-              <>
-                <h2 className="tw:m-0 tw:text-[30px] tw:font-normal tw:text-[#111111]">
-                  VERIFY EMAIL
-                </h2>
+        {/* OTP */}
 
-                <p className="tw:mt-7 tw:mb-2 tw:text-[18px] tw:text-[#666666]">
-                  We've sent a 6-digit OTP to
-                </p>
+        {step === "otp" ? (
+          <div className="tw:mt-8 tw:text-center">
+            <h2
+              style={{ fontFamily: SERIF }}
+              className="tw:m-0 tw:text-[32px] tw:font-normal tw:text-[#1F1F1F]"
+            >
+              Verify Email
+            </h2>
 
-                <p className="tw:mb-8 tw:text-[18px] tw:font-medium tw:text-[#111111] tw:break-all">
-                  {email}
-                </p>
+            <p className="tw:mt-2 tw:mb-1 tw:text-[14px] tw:text-[#6B665B]">
+              We've sent a 6-digit OTP to
+            </p>
 
-                <InputText
-                  value={otp}
-                  onChange={(e) =>
-                    setOtp(e.target.value.replace(/\D/g, "").slice(0, 6))
-                  }
-                  inputMode="numeric"
-                  maxLength={6}
-                  placeholder="Enter OTP"
+            <p className="tw:mt-0 tw:mb-6 tw:text-[15px] tw:font-medium tw:text-[#1F1F1F] tw:break-all">
+              {email}
+            </p>
+
+            <InputText
+              value={otp}
+              onChange={(e) =>
+                setOtp(e.target.value.replace(/\D/g, "").slice(0, 6))
+              }
+              inputMode="numeric"
+              maxLength={6}
+              placeholder="Enter OTP"
+              className={`${inputClass} tw:!text-center tw:!text-[22px] tw:!tracking-[10px]`}
+            />
+
+            {error && (
+              <p className="tw:mt-4 tw:mb-0 tw:text-sm tw:text-red-600">
+                {error}
+              </p>
+            )}
+
+            {success && (
+              <p className="tw:mt-4 tw:mb-0 tw:text-sm tw:text-green-700">
+                {success}
+              </p>
+            )}
+
+            <Button
+              label={loading ? "VERIFYING..." : "VERIFY EMAIL"}
+              onClick={handleVerifyOTP}
+              disabled={loading}
+              className="
+                tw:!w-full
+                tw:!h-[60px]
+                tw:!mt-6
+                tw:!bg-[#263A2E]
+                tw:!border-[#263A2E]
+                tw:!rounded-[8px]
+                tw:!text-white
+                tw:!text-[14px]
+                tw:!font-semibold
+                tw:!tracking-[0.15em]
+                tw:justify-center
+              "
+            />
+
+            <Button
+              label="RESEND OTP"
+              onClick={handleResendOTP}
+              disabled={loading}
+              text
+              className="tw:!mt-3 tw:!text-[#B08D2E] tw:!text-[13px] tw:!tracking-[0.1em]"
+            />
+
+            <button
+              type="button"
+              onClick={() => {
+                setStep("form");
+                setOtp("");
+                setError("");
+                setSuccess("");
+              }}
+              className="
+                tw:block
+                tw:mx-auto
+                tw:mt-1
+                tw:border-0
+                tw:bg-transparent
+                tw:text-[#6B665B]
+                tw:text-sm
+                tw:underline
+                tw:cursor-pointer
+              "
+            >
+              Change details
+            </button>
+          </div>
+        ) : (
+          <>
+            {/* TITLE */}
+
+            <div className="tw:mt-6 tw:mb-7 tw:text-center">
+              <h2
+                style={{ fontFamily: SERIF }}
+                className="tw:m-0 tw:text-[32px] tw:font-normal tw:text-[#1F1F1F]"
+              >
+                {mode === "login" ? "Welcome Back" : "Create Account"}
+              </h2>
+
+              <p className="tw:mt-1 tw:mb-0 tw:text-[15px] tw:text-[#6B665B]">
+                {mode === "login"
+                  ? "Your jewellery journey continues here."
+                  : "Your front row seat to all things!"}
+              </p>
+            </div>
+
+            {/* REGISTER NAME FIELDS */}
+
+            {mode === "register" && (
+              <div className="tw:grid tw:grid-cols-2 tw:gap-4 tw:mb-5">
+                <div>
+                  <label className={`${labelClass} tw:mb-2`}>First Name</label>
+                  <InputText
+                    value={firstName}
+                    onChange={(e) => setFirstName(e.target.value)}
+                    placeholder="First name"
+                    className={inputClass}
+                  />
+                </div>
+
+                <div>
+                  <label className={`${labelClass} tw:mb-2`}>Last Name</label>
+                  <InputText
+                    value={lastName}
+                    onChange={(e) => setLastName(e.target.value)}
+                    placeholder="Last name"
+                    className={inputClass}
+                  />
+                </div>
+              </div>
+            )}
+
+            {/* EMAIL */}
+
+            <div className="tw:mb-5">
+              <label className={`${labelClass} tw:mb-2`}>Email Address</label>
+              <InputText
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                type="email"
+                placeholder="name@example.com"
+                className={inputClass}
+              />
+            </div>
+
+            {/* PHONE */}
+
+            {mode === "register" && (
+              <div className="tw:mb-5">
+                <label className={`${labelClass} tw:mb-2`}>Phone Number</label>
+                <div
                   className="
                     tw:w-full
-                    tw:!h-[74px]
-                    tw:!text-center
-                    tw:!text-[24px]
-                    tw:!tracking-[10px]
-                    tw:!border
-                    tw:!border-[#B9B9B9]
-                    tw:!rounded-[12px]
-                  "
-                />
-
-                {error && (
-                  <p className="tw:mt-4 tw:text-sm tw:text-red-600">{error}</p>
-                )}
-
-                {success && (
-                  <p className="tw:mt-4 tw:text-sm tw:text-green-600">
-                    {success}
-                  </p>
-                )}
-
-                <Button
-                  label={loading ? "VERIFYING..." : "VERIFY EMAIL"}
-                  onClick={handleVerifyOTP}
-                  disabled={loading}
-                  className="
-                    tw:!w-full
-                    tw:!h-[82px]
-                    tw:!mt-6
-                    tw:!bg-black
-                    tw:!border-black
-                    tw:!rounded-[10px]
-                    tw:!text-white
-                    tw:!text-[20px]
-                  "
-                />
-
-                <Button
-                  label="RESEND OTP"
-                  onClick={handleResendOTP}
-                  disabled={loading}
-                  text
-                  className="tw:!mt-4 tw:!text-black"
-                />
-
-                <button
-                  type="button"
-                  onClick={() => {
-                    setStep("form");
-                    setOtp("");
-                    setError("");
-                    setSuccess("");
-                  }}
-                  className="
-                    tw:block
-                    tw:mx-auto
-                    tw:mt-2
-                    tw:border-0
-                    tw:bg-transparent
-                    tw:text-[#666666]
-                    tw:text-sm
-                    tw:underline
-                    tw:cursor-pointer
+                    tw:h-[56px]
+                    tw:flex
+                    tw:items-center
+                    tw:bg-[#FAF7F0]
+                    tw:border
+                    tw:border-[#DDD6C6]
+                    tw:rounded-[10px]
+                    tw:overflow-hidden
                   "
                 >
-                  Change details
-                </button>
-              </>
-            ) : (
-              <>
-                {/* TITLE */}
+                  <div className="tw:pl-5 tw:pr-3 tw:text-[18px] tw:shrink-0">
+                    🇮🇳
+                  </div>
 
-                <h2 className="tw:m-0 tw:text-[30px] tw:font-normal tw:text-[#111111]">
-                  {mode === "login" ? "WELCOME BACK" : "CREATE ACCOUNT"}
-                </h2>
-
-                <p className="tw:mt-7 tw:mb-8 tw:text-[18px] tw:text-[#666666]">
-                  {mode === "login"
-                    ? "Login to continue your Roshni Creations journey."
-                    : "Your front row seat to all things!"}
-                </p>
-
-                {/* REGISTER FIELDS */}
-
-                {mode === "register" && (
-                  <>
-                    <div className="tw:grid tw:grid-cols-2 tw:gap-4 tw:mb-4">
-                      <InputText
-                        value={firstName}
-                        onChange={(e) => setFirstName(e.target.value)}
-                        placeholder="First Name"
-                        className="
-                          tw:w-full
-                          tw:!h-[74px]
-                          tw:!px-6
-                          tw:!text-[20px]
-                          tw:!border
-                          tw:!border-[#B9B9B9]
-                          tw:!rounded-[12px]
-                        "
-                      />
-
-                      <InputText
-                        value={lastName}
-                        onChange={(e) => setLastName(e.target.value)}
-                        placeholder="Last Name"
-                        className="
-                          tw:w-full
-                          tw:!h-[74px]
-                          tw:!px-6
-                          tw:!text-[20px]
-                          tw:!border
-                          tw:!border-[#B9B9B9]
-                          tw:!rounded-[12px]
-                        "
-                      />
-                    </div>
-                  </>
-                )}
-
-                {/* EMAIL */}
-
-                <InputText
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  type="email"
-                  placeholder="Email Address"
-                  className="
-                    tw:w-full
-                    tw:!h-[74px]
-                    tw:!px-6
-                    tw:!mb-4
-                    tw:!text-[20px]
-                    tw:!border
-                    tw:!border-[#B9B9B9]
-                    tw:!rounded-[12px]
-                  "
-                />
-
-                {/* PHONE */}
-
-                {mode === "register" && (
-                  <div
+                  <InputText
+                    value={phone}
+                    onChange={(e) => setPhone(e.target.value)}
+                    type="tel"
+                    placeholder="10-digit mobile number"
                     className="
                       tw:w-full
-                      tw:h-[74px]
-                      tw:flex
-                      tw:items-center
-                      tw:border
-                      tw:border-[#B9B9B9]
-                      tw:rounded-[12px]
-                      tw:overflow-hidden
-                      tw:mb-4
+                      tw:!h-full
+                      tw:!bg-transparent
+                      tw:!border-0
+                      tw:!shadow-none
+                      tw:!text-[16px]
+                      tw:!px-2
+                      tw:placeholder:!text-[#B9B2A2]
                     "
-                  >
-                    <div className="tw:px-5 tw:text-[20px] tw:shrink-0">🇮🇳</div>
+                  />
+                </div>
+              </div>
+            )}
 
-                    <InputText
-                      value={phone}
-                      onChange={(e) => setPhone(e.target.value)}
-                      type="tel"
-                      placeholder="Phone Number"
-                      className="
-                        tw:w-full
-                        tw:!h-full
-                        tw:!border-0
-                        tw:!shadow-none
-                        tw:!text-[20px]
-                      "
-                    />
-                  </div>
-                )}
+            {/* PASSWORD */}
 
-                {/* PASSWORD */}
+            <div className="tw:mb-7">
+              <div className="tw:flex tw:items-center tw:justify-between tw:mb-2">
+                <label className={labelClass}>Password</label>
 
-                <Password
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  placeholder="Password"
-                  feedback={mode === "register"}
-                  toggleMask
-                  className="tw:w-full tw:!mb-8"
-                  inputClassName="
-                    tw:!w-full
-                    tw:!h-[74px]
-                    tw:!px-6
-                    tw:!text-[20px]
-                    tw:!border
-                    tw:!border-[#B9B9B9]
-                    tw:!rounded-[12px]
-                  "
-                />
-
-                {/* ERROR */}
-
-                {error && (
-                  <p className="tw:mb-4 tw:text-sm tw:text-red-600">{error}</p>
-                )}
-
-                {/* SUCCESS */}
-
-                {success && (
-                  <p className="tw:mb-4 tw:text-sm tw:text-green-600">
-                    {success}
-                  </p>
-                )}
-
-                {/* ACTION */}
-
-                <Button
-                  label={
-                    loading
-                      ? "PLEASE WAIT..."
-                      : mode === "login"
-                        ? "LOGIN"
-                        : "CONTINUE"
-                  }
-                  onClick={mode === "login" ? handleLogin : handleRegister}
-                  disabled={loading}
-                  className="
-                    tw:!w-full
-                    tw:!h-[82px]
-                    tw:!bg-black
-                    tw:!border-black
-                    tw:!rounded-[10px]
-                    tw:!text-white
-                    tw:!text-[20px]
-                    tw:!font-semibold
-                    tw:!tracking-wide
-                  "
-                />
-
-                {/* SWITCH MODE */}
-
-                <p className="tw:mt-7 tw:text-[16px] tw:text-[#666666]">
-                  {mode === "login"
-                    ? "Don't have an account?"
-                    : "Already have an account?"}
-
+                {mode === "login" && (
                   <button
                     type="button"
-                    onClick={() =>
-                      changeMode(mode === "login" ? "register" : "login")
-                    }
-                    className="
-                      tw:ml-2
-                      tw:border-0
-                      tw:bg-transparent
-                      tw:text-black
-                      tw:font-semibold
-                      tw:underline
-                      tw:cursor-pointer
-                    "
+                    className="tw:border-0 tw:bg-transparent tw:p-0 tw:text-[13px] tw:text-[#6B665B] tw:cursor-pointer"
                   >
-                    {mode === "login" ? "Sign Up" : "Login"}
+                    Forgot Password?
                   </button>
-                </p>
-              </>
+                )}
+              </div>
+
+              <Password
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                placeholder="••••••••"
+                feedback={mode === "register"}
+                toggleMask
+                className="tw:!flex tw:w-full"
+                inputClassName={inputClass}
+              />
+            </div>
+
+            {/* ERROR */}
+
+            {error && (
+              <p className="tw:mt-0 tw:mb-4 tw:text-sm tw:text-red-600">
+                {error}
+              </p>
             )}
-          </div>
-        </div>
+
+            {/* SUCCESS */}
+
+            {success && (
+              <p className="tw:mt-0 tw:mb-4 tw:text-sm tw:text-green-700">
+                {success}
+              </p>
+            )}
+
+            {/* ACTION */}
+
+            <Button
+              label={
+                loading
+                  ? "PLEASE WAIT..."
+                  : mode === "login"
+                    ? "SIGN IN"
+                    : "CONTINUE"
+              }
+              onClick={mode === "login" ? handleLogin : handleRegister}
+              disabled={loading}
+              className="
+                tw:!w-full
+                tw:!h-[60px]
+                tw:!bg-[#263A2E]
+                tw:!border-[#263A2E]
+                tw:!rounded-[8px]
+                tw:!text-white
+                tw:!text-[14px]
+                tw:!font-semibold
+                tw:!tracking-[0.15em]
+                tw:justify-center
+              "
+            />
+
+            {/* SWITCH MODE */}
+
+            <div className="tw:mt-7 tw:pt-5 tw:border-t tw:border-[#E4DECF] tw:text-center tw:text-[14px] tw:text-[#6B665B]">
+              {mode === "login" ? "New to Roshni Creations?" : "Already a member?"}
+
+              <button
+                type="button"
+                onClick={() =>
+                  changeMode(mode === "login" ? "register" : "login")
+                }
+                className="
+                  tw:ml-2
+                  tw:border-0
+                  tw:bg-transparent
+                  tw:p-0
+                  tw:text-[#B08D2E]
+                  tw:font-medium
+                  tw:cursor-pointer
+                "
+              >
+                {mode === "login" ? "Create Account" : "Sign In"}
+              </button>
+            </div>
+          </>
+        )}
       </div>
     </div>
   );
