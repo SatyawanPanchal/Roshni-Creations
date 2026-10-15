@@ -7,6 +7,7 @@ import { Checkbox } from "primereact/checkbox";
 import { Button } from "primereact/button";
 import { useAuth } from "../../../context/AuthContext.jsx";
 import { showSuccess } from "../../utils/toast.js";
+import logo from "../../../assets/logo.webp"
 
 export default function Login() {
   const { login } = useAuth();
@@ -55,7 +56,7 @@ export default function Login() {
     <div className="tw:min-h-screen tw:flex tw:items-center tw:justify-center tw:bg-[#FAF7F1] tw:p-5">
       <div className="rc-card tw:w-full tw:max-w-sm tw:p-9">
         <div className="tw:w-14 tw:h-14 tw:rounded-full tw:border tw:border-[#AD8A3F] tw:text-[#AD8A3F] tw:flex tw:items-center tw:justify-center font-display tw:text-2xl tw:mx-auto tw:mb-4">
-          R
+          <img src={logo} alt="" />
         </div>
         <h1 className="font-display tw:text-xl tw:text-center tw:mb-1">
           Welcome back
