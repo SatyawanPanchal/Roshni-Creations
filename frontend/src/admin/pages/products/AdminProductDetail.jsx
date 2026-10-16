@@ -193,7 +193,7 @@ export default function AdminProductDetail() {
     return (
       <div className={CARD}>
         <EmptyState
-          icon="pi-gem"
+          icon="pi-shopping-bag"
           title="Product not found"
           subtitle="This product may have been removed."
           action={

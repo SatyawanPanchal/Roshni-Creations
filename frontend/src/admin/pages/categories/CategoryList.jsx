@@ -134,12 +134,20 @@ export default function CategoryList() {
             value={statusFilter}
             onChange={(e) => setStatusFilter(e.value)}
             options={[
-              { label: "All status", value: null },
               { label: "Active", value: "active" },
               { label: "Inactive", value: "inactive" },
             ]}
             className="tw:w-40"
             placeholder="Status"
+          />
+          <Button
+            label="Clear all"
+            icon="pi pi-filter-slash"
+            text
+            onClick={() => {
+              setSearch("");
+              setStatusFilter(null);
+            }}
           />
         </div>
 
@@ -154,10 +162,10 @@ export default function CategoryList() {
                 </div>
               )}
             />
-            <Column
+            {/* <Column
               header="Slug"
               body={(c) => <span className="mono">/{c.category}</span>}
-            />
+            /> */}
             <Column field="menuGroup" header="Menu group" />
             <Column field="menuOrder" header="Order" />
             <Column
@@ -170,7 +178,12 @@ export default function CategoryList() {
               body={(c) => (
                 <div className="tw:flex tw:gap-1 tw:justify-end">
                   <Link to={`/admin/categories/${c._id}/edit`}>
-                    <Button icon="pi pi-pencil" text rounded className="tw:!text-[#112E2A]" />
+                    <Button
+                      icon="pi pi-pencil"
+                      text
+                      rounded
+                      className="tw:!text-[#112E2A]"
+                    />
                   </Link>
                   <Button
                     icon={c.isActive ? "pi pi-times" : "pi pi-check"}

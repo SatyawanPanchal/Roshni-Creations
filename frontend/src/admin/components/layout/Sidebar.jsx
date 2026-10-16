@@ -3,7 +3,7 @@ import logo from "../../../assets/logo.webp"
 
 const NAV_ITEMS = [
   { to: "/admin/dashboard", icon: "pi-th-large", label: "Dashboard" },
-  { to: "/admin/products", icon: "pi-gem", label: "Products" },
+  { to: "/admin/products", icon: "pi-shopping-bag", label: "Products" },
   { to: "/admin/categories", icon: "pi-tags", label: "Categories" },
   { to: "/admin/collections", icon: "pi-th-large", label: "Collections" },
   { to: "/admin/orders", icon: "pi-box", label: "Orders" },

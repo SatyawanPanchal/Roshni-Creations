@@ -105,7 +105,7 @@ export default function OrderList() {
               setFirst(0);
             }}
             options={[
-              { label: "All statuses", value: null },
+              
               ...ORDER_STATUS_IN_BACKEND_ENUM.map((s) => ({
                 label: s,
                 value: s,
@@ -121,12 +121,23 @@ export default function OrderList() {
               setFirst(0);
             }}
             options={[
-              { label: "All payments", value: null },
+              
               ...PAYMENT_STATUS_OPTIONS.map((s) => ({ label: s, value: s })),
             ]}
             className="tw:w-44"
             placeholder="Payment Status"
           />
+
+          <Button
+              label="Clear all"
+              icon="pi pi-filter-slash"
+              text
+              onClick={() => {
+                setSearch("");
+                setStatusFilter(null)
+                setPayFilter(null)
+              }}
+            />
         </div>
 
         {filtered.length ? (

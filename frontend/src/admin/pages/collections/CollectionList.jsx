@@ -121,13 +121,22 @@ export default function CollectionList() {
             value={statusFilter}
             onChange={(e) => setStatusFilter(e.value)}
             options={[
-              { label: "All status", value: null },
+              
               { label: "Active", value: "active" },
               { label: "Inactive", value: "inactive" },
             ]}
             className="tw:w-40"
             placeholder="Status"
           />
+          <Button
+              label="Clear all"
+              icon="pi pi-filter-slash"
+              text
+              onClick={() => {
+                setSearch("");
+                setStatusFilter(null)
+              }}
+            />
         </div>
 
         {filtered.length ? (
@@ -142,7 +151,7 @@ export default function CollectionList() {
               )}
             />
             <Column header="Description" body={(c) => <span className="tw:line-clamp-2 tw:max-w-xs tw:block">{c.description || "—"}</span>} />
-            <Column header="Slug" body={(c) => <span className="mono">/{c.slug}</span>} />
+            {/* <Column header="Slug" body={(c) => <span className="mono">/{c.slug}</span>} /> */}
             <Column header="Status" body={(c) => <ActiveBadge active={c.isActive} />} />
             <Column header="Created" body={(c) => formatDate(c.createdAt)} />
             <Column

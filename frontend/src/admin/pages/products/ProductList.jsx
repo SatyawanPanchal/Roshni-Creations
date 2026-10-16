@@ -129,7 +129,10 @@ export default function ProductList() {
         title="Products"
         subtitle={`${products.length} products in your catalogue`}
         actions={
-          <Link to="/admin/products/add" className="tw:block tw:w-full tw:sm:w-auto">
+          <Link
+            to="/admin/products/add"
+            className="tw:block tw:w-full tw:sm:w-auto"
+          >
             <Button
               label="Add product"
               icon="pi pi-plus"
@@ -162,7 +165,6 @@ export default function ProductList() {
                 setFirst(0);
               }}
               options={[
-                { label: "All categories", value: null },
                 ...categories.map((c) => ({ label: c.title, value: c._id })),
               ]}
               className="tw:w-full tw:sm:w-44"
@@ -175,7 +177,6 @@ export default function ProductList() {
                 setFirst(0);
               }}
               options={[
-                { label: "All collections", value: null },
                 ...collections.map((c) => ({ label: c.title, value: c._id })),
               ]}
               className="tw:w-full tw:sm:w-44"
@@ -187,12 +188,22 @@ export default function ProductList() {
                 setAvailFilter(e.value);
                 setFirst(0);
               }}
-              options={[
-                { label: "All availability", value: null },
-                ...AVAILABILITY_OPTIONS,
-              ]}
+              options={[...AVAILABILITY_OPTIONS]}
               className="tw:w-full tw:sm:w-44"
               placeholder="Availability"
+              showClear
+            />
+            <Button
+              label="Clear all"
+              icon="pi pi-filter-slash"
+              text
+              onClick={() => {
+                setSearch("");
+                setCatFilter(null);
+                setCollFilter(null);
+                setAvailFilter(null);
+                setFirst(0);
+              }}
             />
           </div>
         </div>
@@ -272,10 +283,20 @@ export default function ProductList() {
                   body={(p) => (
                     <div className="tw:flex tw:gap-1 tw:justify-end">
                       <Link to={`/admin/products/${p._id}`}>
-                        <Button icon="pi pi-eye" text rounded className="tw:!text-[#112E2A]"/>
+                        <Button
+                          icon="pi pi-eye"
+                          text
+                          rounded
+                          className="tw:!text-[#112E2A]"
+                        />
                       </Link>
                       <Link to={`/admin/products/${p._id}/edit`}>
-                        <Button icon="pi pi-pencil" text rounded className="tw:!text-[#112E2A]"/>
+                        <Button
+                          icon="pi pi-pencil"
+                          text
+                          rounded
+                          className="tw:!text-[#112E2A]"
+                        />
                       </Link>
                       <Button
                         icon="pi pi-trash"
@@ -300,7 +321,7 @@ export default function ProductList() {
           </>
         ) : (
           <EmptyState
-            icon="pi-gem"
+            icon="pi-shopping-bag"
             title="No products found"
             subtitle="Try adjusting your search or filters, or add a new product."
             action={

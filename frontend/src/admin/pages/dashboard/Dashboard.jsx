@@ -127,7 +127,7 @@ export default function Dashboard() {
           value={kpis.pendingOrders}
           label="Pending orders"
         />
-        <Kpi icon="pi-gem" value={kpis.totalProducts} label="Total products" />
+        <Kpi icon="pi-shopping-bag" value={kpis.totalProducts} label="Total products" />
         <Kpi
           icon="pi-exclamation-circle"
           value={kpis.lowStock}
@@ -267,7 +267,7 @@ export default function Dashboard() {
           </div>
         </div>
 
-        <div className="rc-card tw:p-5">
+        {/* <div className="rc-card tw:p-5">
           <div className="font-display tw:text-base tw:mb-1">Low stock</div>
           <div className="tw:text-[12px] tw:text-[#9AA39B] tw:mb-3">
             Products that need restocking
@@ -297,7 +297,7 @@ export default function Dashboard() {
               All products are well stocked.
             </div>
           )}
-        </div>
+        </div> */}
       </div>
 
       <div className="rc-card tw:p-5">

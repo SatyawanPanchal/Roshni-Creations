@@ -155,7 +155,7 @@ export default function CustomerDetail() {
                         <td className="tw:px-3 tw:py-2.5"><PaymentStatusBadge status={o.paymentStatus} /></td>
                         <td className="tw:px-3 tw:py-2.5"><OrderStatusBadge status={o.orderStatus} /></td>
                         <td className="tw:px-3 tw:py-2.5 tw:text-right">
-                          <Link to={`/orders/${o._id}`} className="tw:text-[#1F4E47] tw:text-xs tw:no-underline">View</Link>
+                          <Link to={`/admin/orders/${o._id}`} className="tw:text-[#1F4E47] tw:text-xs tw:no-underline">View</Link>
                         </td>
                       </tr>
                     ))}
