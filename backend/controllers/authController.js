@@ -451,26 +451,51 @@ export const getAllCustomersAdmin = async (req, res) => {
   try {
     const customers = await User.find({ role: "user" })
       .select(
-        "_id firstName lastName email phone role isEmailVerified isActive lastLoginAt createdAt"
+        "_id firstName lastName email phone role isEmailVerified isActive lastLoginAt createdAt",
       )
       .sort({ createdAt: -1 })
       .lean();
 
+    // Aggregate order stats per user
+    const stats = await Order.aggregate([
+      {
+        $match: {
+          status: { $nin: ["cancelled", "failed"] }, // adjust to your statuses
+        },
+      },
+      {
+        $group: {
+          _id: "$user", // change to "$customer" if that's your field name
+          ordersCount: { $sum: 1 },
+          totalSpent: { $sum: "$totalAmount" }, // change to your amount field
+        },
+      },
+    ]);
+
+    const statsMap = new Map(stats.map((s) => [String(s._id), s]));
+
+    const data = customers.map((c) => {
+      const s = statsMap.get(String(c._id));
+      return {
+        ...c,
+        ordersCount: s?.ordersCount ?? 0,
+        totalSpent: s?.totalSpent ?? 0,
+      };
+    });
+
     return res.status(200).json({
       success: true,
-      count: customers.length,
-      data: customers,
+      count: data.length,
+      data,
     });
   } catch (error) {
     console.error("Get all customers error:", error);
-
     return res.status(500).json({
       success: false,
       message: "Error fetching customers",
     });
   }
 };
-
 
 // ============================================================
 // GET SINGLE CUSTOMER — ADMIN
@@ -486,7 +511,7 @@ export const getCustomerByIdAdmin = async (req, res) => {
       role: "user",
     })
       .select(
-        "_id firstName lastName email phone role isEmailVerified isActive lastLoginAt createdAt"
+        "_id firstName lastName email phone role isEmailVerified isActive lastLoginAt createdAt",
       )
       .lean();
 
@@ -524,7 +549,6 @@ export const getCustomerByIdAdmin = async (req, res) => {
     });
   }
 };
-
 
 // ============================================================
 // TOGGLE CUSTOMER ACTIVE STATUS — ADMIN

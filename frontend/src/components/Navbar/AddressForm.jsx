@@ -391,7 +391,7 @@ const AddressForm = ({ address = null, onSuccess, onCancel }) => {
         {/* CITY / STATE / PIN */}
 
         {/* CITY / STATE / PIN */}
-        <div className="tw:grid tw:grid-cols-1 tw:gap-4 sm:tw:grid-cols-2 lg:tw:grid-cols-3">
+        <div className="tw:grid tw:grid-cols-1 tw:gap-4 tw:sm:grid-cols-2 tw:lg:grid-cols-3">
           {/* CITY */}
           <div className="tw:min-w-0">
             <label

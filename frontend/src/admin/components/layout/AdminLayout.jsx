@@ -32,8 +32,12 @@ export default function AdminLayout() {
         user={user}
         onLogout={logout}
       />
-      <div className="tw:flex-1 tw:flex tw:flex-col tw:min-h-screen tw:lg:ml-60">
-        <Topbar title={title} subtitle={subtitle} onMenuClick={() => setSidebarOpen(true)} />
+      <div className="tw:flex-1 tw:min-w-0 tw:flex tw:flex-col tw:min-h-screen tw:lg:ml-60">
+        <Topbar
+          title={title}
+          subtitle={subtitle}
+          onMenuClick={() => setSidebarOpen(true)}
+        />
         <div className="tw:p-4 tw:sm:p-6 tw:flex-1">
           <Outlet />
         </div>

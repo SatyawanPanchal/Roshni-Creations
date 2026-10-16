@@ -223,10 +223,10 @@ export default function ProductList() {
                     <div className="tw:flex tw:items-center tw:gap-2.5">
                       <Thumb src={p.image} size={38} />
                       <div>
-                        <div className="tw:font-medium tw:text-[13px]">
+                        <div className="tw:hidden tw:sm:flex tw:font-medium tw:text-[11px] tw:sm:text-[13px]">
                           {p.name}
                         </div>
-                        <div className="tw:text-[11px] tw:text-[#9AA39B] mono">
+                        <div className="tw:hidden tw:sm:flex tw:text-[11px] tw:text-[#9AA39B] mono">
                           {p.productCode}
                         </div>
                       </div>
@@ -234,7 +234,13 @@ export default function ProductList() {
                   )}
                 />
                 <Column
+                  header="Code"
+                  className="tw:sm:hidden tw:text-[11px]"
+                  body={(p) => p.productCode || "—"}
+                />
+                <Column
                   header="Category"
+                  className="tw:text-[11px] tw:sm:text-[13px]"
                   body={(p) => p.category?.title || "—"}
                 />
                 <Column

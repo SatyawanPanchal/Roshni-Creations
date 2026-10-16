@@ -1,9 +1,11 @@
 import Order from "../models/orderModel.js";
 import Cart from "../models/cartModel.js";
 import Address from "../models/addressModel.js";
+import productModel from "../models/productModel.js";
 import crypto from "crypto"; //for verifying rzp payment
 
 import Razorpay from "razorpay";
+import { sendOrderEmails } from "../utils/sendOrderEmails.js";
 
 // razorpay instance created, for authentication with razorpay
 const razorpay = new Razorpay({
@@ -111,10 +113,7 @@ export const createOrder = async (req, res) => {
       });
     }
 
-    const address = await Address.findOne({
-      _id: addressId,
-      userId,
-    });
+    const address = await Address.findOne({ _id: addressId, userId });
 
     if (!address) {
       return res.status(404).json({
@@ -133,7 +132,46 @@ export const createOrder = async (req, res) => {
       });
     }
 
-    // Prepare order items
+    // ---------- 1. Reduce stock FIRST (cart still has items) ----------
+    const reduced = [];
+
+    for (const item of cart.items) {
+      const product = item.productId;
+
+      // made-to-order products have no stock to reduce
+      if (product.availability === "made-to-order") continue;
+
+      const updated = await productModel.findOneAndUpdate(
+        { _id: product._id, stockLeft: { $gte: item.quantity } },
+        { $inc: { stockLeft: -item.quantity } },
+        { new: true },
+      );
+
+      if (!updated) {
+        // Not enough stock, so undo what was already reduced
+        for (const r of reduced) {
+          await productModel.findByIdAndUpdate(r.id, {
+            $inc: { stockLeft: r.qty },
+            availability: "in-stock",
+          });
+        }
+
+        return res.status(400).json({
+          success: false,
+          message: `"${product.name}" does not have enough stock`,
+        });
+      }
+
+      // Stock hit zero, so mark out of stock
+      if (updated.stockLeft === 0) {
+        updated.availability = "out-of-stock";
+        await updated.save();
+      }
+
+      reduced.push({ id: product._id, qty: item.quantity });
+    }
+
+    // ---------- 2. Create the order ----------
     const orderItems = cart.items.map((item) => ({
       productId: item.productId._id,
       name: item.productId.name,
@@ -143,46 +181,45 @@ export const createOrder = async (req, res) => {
     }));
 
     const subtotal = cart.totalPrice;
-
-    // Same shipping rule as cart
     const shipping = subtotal > 999 ? 0 : 100;
-
     const totalAmount = subtotal + shipping;
-
-    // Generate order ID
 
     const customOrderId = await generateOrderId();
 
     const order = await Order.create({
       customOrderId,
       userId,
-
       items: orderItems,
-
       addressId,
-
       subtotal,
       shipping,
       totalAmount,
-
-      // Only payment option for now
       paymentMethod: "ONLINE",
       paymentStatus: paymentStatus,
-
       orderStatus: "Pending",
     });
 
-    // Clear cart after order creation
+    // ---------- 3. Clear the cart LAST ----------
     cart.items = [];
     cart.totalItems = 0;
     cart.totalPrice = 0;
-
     await cart.save();
 
     // Return populated order
     const populatedOrder = await Order.findById(order._id)
       .populate("addressId")
       .populate("items.productId");
+
+    // ---------- 4. Send emails (order still succeeds if this fails) ----------
+    try {
+      await sendOrderEmails({
+        order: populatedOrder,
+        customerEmail: req.user.email,
+        customerName: address.firstName || req.user.firstName || "Customer",
+      });
+    } catch (emailError) {
+      console.error("Order email failed:", emailError.message);
+    }
 
     return res.status(201).json({
       success: true,
@@ -425,11 +462,20 @@ export const cancelOrder = async (req, res) => {
   try {
     const { id } = req.params;
 
+    // 1. Find the order first
     const order = await Order.findById(id);
     if (!order) {
       return res.status(404).json({
         success: false,
         message: "Order not found",
+      });
+    }
+
+    // 2. Check whether it can be cancelled
+    if (order.orderStatus === "Cancelled") {
+      return res.status(400).json({
+        success: false,
+        message: "Order is already cancelled",
       });
     }
 
@@ -440,9 +486,21 @@ export const cancelOrder = async (req, res) => {
       });
     }
 
+    // 3. Restore stock
+    for (const item of order.items) {
+      const product = await productModel.findById(item.productId);
+      if (!product || product.availability === "made-to-order") continue;
+
+      product.stockLeft += item.quantity;
+      product.availability = "in-stock";
+      await product.save();
+    }
+
+    // 4. Mark cancelled
     order.orderStatus = "Cancelled";
+
     // If it was already paid, mark it Refunded here as a starting
-    // point — wire up your actual refund/payment-gateway call before
+    // point. Wire up your actual Razorpay refund call before
     // relying on this in production.
     if (order.paymentStatus === "Paid") {
       order.paymentStatus = "Refunded";
