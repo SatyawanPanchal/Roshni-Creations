@@ -101,16 +101,16 @@ export default function Login() {
           </div>
 
           <div className="tw:flex tw:items-center tw:justify-between tw:mb-5">
-            <label className="tw:flex tw:items-center tw:gap-2 tw:text-[12.5px] tw:text-[#5E6D67] tw:cursor-pointer">
-              <Checkbox
+            {/* <label className="tw:flex tw:items-center tw:gap-2 tw:text-[12.5px] tw:text-[#5E6D67] tw:cursor-pointer"> */}
+              {/* <Checkbox
                 checked={remember}
                 onChange={(e) => setRemember(e.checked)}
               />
               Remember me
-            </label>
-            <span className="tw:text-[12px] tw:text-[#1F4E47] tw:cursor-pointer">
+            </label> */}
+            {/* <span className="tw:text-[12px] tw:text-[#1F4E47] tw:cursor-pointer">
               Forgot password?
-            </span>
+            </span> */}
           </div>
 
           <Button

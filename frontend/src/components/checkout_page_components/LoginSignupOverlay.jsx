@@ -532,14 +532,14 @@ const LoginSignupOverlay = ({ visible, onHide }) => {
               <div className="tw:flex tw:items-center tw:justify-between tw:mb-2">
                 <label className={labelClass}>Password</label>
 
-                {mode === "login" && (
+                {/* {mode === "login" && (
                   <button
                     type="button"
                     className="tw:border-0 tw:bg-transparent tw:p-0 tw:text-[13px] tw:text-[#6B665B] tw:cursor-pointer"
                   >
                     Forgot Password?
                   </button>
-                )}
+                )} */}
               </div>
 
               <Password
