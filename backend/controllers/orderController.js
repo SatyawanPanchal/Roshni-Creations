@@ -3,7 +3,6 @@ import Cart from "../models/cartModel.js";
 import Address from "../models/addressModel.js";
 import crypto from "crypto"; //for verifying rzp payment
 
-
 import Razorpay from "razorpay";
 
 // razorpay instance created, for authentication with razorpay
@@ -12,12 +11,11 @@ const razorpay = new Razorpay({
   key_secret: process.env.RAZORPAY_KEY_SECRET,
 });
 
-
 // controller to create order for request to razorpay server, this will return an order id which will be used for making request to different apis
 
 export const createOrderAtRzp = async (req, res) => {
   const { totalPrice } = req.body;
-  console.log("total price",totalPrice)
+  console.log("total price", totalPrice);
   try {
     const createdOrder = await razorpay.orders.create({
       amount: totalPrice * 100,
@@ -88,6 +86,14 @@ export const verifyOrderAtRzp = async (req, res) => {
   }
 };
 
+// Short order ID
+const generateOrderId = async () => {
+  let id;
+  do {
+    id = `ORD-${Math.floor(100000 + Math.random() * 900000)}`;
+  } while (await Order.exists({ customOrderId: id }));
+  return id;
+};
 
 /* =====================================================
    CREATE ORDER
@@ -118,9 +124,7 @@ export const createOrder = async (req, res) => {
     }
 
     // Get user's cart
-    const cart = await Cart.findOne({ userId }).populate(
-      "items.productId"
-    );
+    const cart = await Cart.findOne({ userId }).populate("items.productId");
 
     if (!cart || !cart.items || cart.items.length === 0) {
       return res.status(400).json({
@@ -133,10 +137,7 @@ export const createOrder = async (req, res) => {
     const orderItems = cart.items.map((item) => ({
       productId: item.productId._id,
       name: item.productId.name,
-      image:
-        item.productId.image ||
-        item.productId.images?.[0] ||
-        "",
+      image: item.productId.image || item.productId.images?.[0] || "",
       quantity: item.quantity,
       price: item.price,
     }));
@@ -149,7 +150,8 @@ export const createOrder = async (req, res) => {
     const totalAmount = subtotal + shipping;
 
     // Generate order ID
-    const customOrderId = `ORD-${Date.now()}`;
+
+    const customOrderId = await generateOrderId();
 
     const order = await Order.create({
       customOrderId,
