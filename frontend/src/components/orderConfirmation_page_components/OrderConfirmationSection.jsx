@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import jsPDF from "jspdf";
 import { useEffect } from "react";
 import { Button } from "primereact/button";
@@ -64,8 +65,12 @@ function getPaymentLabel(order) {
    ORDER ID
 ========================================================= */
 
+// function getOrderId(order) {
+//   return order?.orderId || order?.orderNumber || order?._id || "N/A";
+// }
+
 function getOrderId(order) {
-  return order?.orderId || order?.orderNumber || order?._id || "N/A";
+  return order?.orderNumber || "N/A";
 }
 
 /* =========================================================
@@ -611,7 +616,7 @@ export default function OrderConfirmationSection() {
 
   const customer = getCustomer(order);
 
-  const orderId = getOrderId(order);
+  const orderId = getOrderId(order);  
 
   const orderDate = order?.createdAt
     ? new Date(order.createdAt).toLocaleDateString("en-IN", {
@@ -759,7 +764,7 @@ export default function OrderConfirmationSection() {
           ================================================= */}
 
           <div className="tw:mt-8 tw:flex tw:w-full tw:flex-col tw:items-center tw:gap-3 tw:sm:w-auto tw:sm:flex-row">
-            <Button
+            {/* <Button
               label="Track Order"
               icon="pi pi-map-marker"
               onClick={handleTrackOrder}
@@ -767,7 +772,7 @@ export default function OrderConfirmationSection() {
               style={{
                 backgroundColor: BRAND,
               }}
-            />
+            /> */}
 
             <Button
               label="Download Invoice"

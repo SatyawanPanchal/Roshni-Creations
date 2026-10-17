@@ -43,6 +43,7 @@ import AdminProductDetail from "./admin/pages/products/AdminProductDetail";
 import MobileFloatingMenu from "./components/MobileFloatingMenu";
 import AssistancePage from "./components/AssistancePage";
 import ExhibitionOffer from "./components/ExhibitionOffer";
+import CouponRegister from "./pages/CouponRegister";
 
 // ============================================================
 // CUSTOMER LAYOUT
@@ -142,6 +143,7 @@ const App = () => {
           <Route path="/assistance/:slug" element={<AssistancePage />} />
 
           <Route path="/orderConfirmed" element={<OrderConfirmationPage />} />
+          <Route path="/exhbRegistration" element={<CouponRegister />} />
         </Route>
 
         {/* ==================================================

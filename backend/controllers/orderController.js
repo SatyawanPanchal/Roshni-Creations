@@ -4,6 +4,7 @@ import Address from "../models/addressModel.js";
 import productModel from "../models/productModel.js";
 import crypto from "crypto"; //for verifying rzp payment
 import { calculateShipping } from "../utils/cartUtils.js";
+import Coupon from "../models/couponModel.js";
 
 import Razorpay from "razorpay";
 import { sendOrderEmails } from "../utils/sendOrderEmails.js";
@@ -50,7 +51,7 @@ export const createOrderAtRzp = async (req, res) => {
     }
 
     const subtotal = cart.totalPrice;
-    const discount = getDiscount(subtotal, couponCode);
+    const discount = await getDiscount(subtotal, couponCode);
     const shipping = discount > 0 ? 0 : calculateShipping(subtotal);
     const amount = subtotal - discount + shipping;
 
@@ -123,18 +124,22 @@ export const verifyOrderAtRzp = async (req, res) => {
 };
 
 // coupon code logic
-const COUPON_CODE = "EXHIBITION10"; // change to your code
-const COUPON_PERCENT = 10;
+const getDiscount = async (subtotal, code) => {
+  if (!code) return 0;
+  const coupon = await Coupon.findOne({
+    code: code.trim().toUpperCase(),
+    used: false,
+  });
+  return coupon ? Math.round((subtotal * 10) / 100) : 0;
+};
 
-const getDiscount = (subtotal, code) =>
-  code && code.trim().toUpperCase() === COUPON_CODE
-    ? Math.round((subtotal * COUPON_PERCENT) / 100)
-    : 0;
-
-export const applyCoupon = (req, res) => {
+export const applyCoupon = async (req, res) => {
   const { couponCode } = req.body;
-  if (getDiscount(100, couponCode) === 0) {
-    return res.json({ success: false, message: "Invalid coupon code" });
+  if ((await getDiscount(100, couponCode)) === 0) {
+    return res.json({
+      success: false,
+      message: "Invalid or already used coupon",
+    });
   }
   res.json({ success: true, message: "Coupon applied" });
 };
@@ -232,7 +237,7 @@ export const createOrder = async (req, res) => {
     }));
 
     const subtotal = cart.totalPrice;
-    const discount = getDiscount(subtotal, couponCode);
+    const discount = await getDiscount(subtotal, couponCode);
     // A valid coupon means free shipping
     const shipping = discount > 0 ? 0 : calculateShipping(subtotal);
     const totalAmount = subtotal + shipping - discount;
@@ -253,6 +258,13 @@ export const createOrder = async (req, res) => {
       discount,
       couponCode: discount > 0 ? couponCode.trim().toUpperCase() : undefined,
     });
+
+    if (discount > 0) {
+      await Coupon.updateOne(
+        { code: couponCode.trim().toUpperCase() },
+        { used: true },
+      );
+    }
 
     // ---------- 3. Clear the cart LAST ----------
     cart.items = [];

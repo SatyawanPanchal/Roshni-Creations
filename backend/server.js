@@ -13,6 +13,7 @@ import { fileURLToPath } from "url";
 import addressRouter from "./routes/addressRoutes.js";
 import categoryRoutes from "./routes/categoryRoutes.js";
 import collectionRoutes from "./routes/collectionRoutes.js";
+import couponRoutes from "./routes/couponRoutes.js";
 configDotenv();
 
 const __filename = fileURLToPath(import.meta.url);
@@ -41,6 +42,7 @@ app.use("/api/order", orderRoutes);
 app.use("/api/addresses", addressRouter);
 app.use("/api/categories", categoryRoutes);
 app.use("/api/collections", collectionRoutes);
+app.use("/api/coupon", couponRoutes);
 
 app.listen(port, () => {
   console.log(`Server is listening at port ${port}`);
