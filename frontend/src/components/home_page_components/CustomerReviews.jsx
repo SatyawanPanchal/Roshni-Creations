@@ -119,7 +119,7 @@ const CustomerReviews = () => {
         <h2
           className="
             tw:font-serif
-            tw:text-[30px]
+            tw:text-[22px]
             tw:font-normal
             tw:leading-tight
             tw:text-[#292929]

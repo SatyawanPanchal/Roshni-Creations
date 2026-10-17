@@ -697,7 +697,7 @@ export default function ProductDetail() {
               )}
             </div>
 
-            <h1 className="rc-serif tw:mt-2 tw:text-3xl tw:font-semibold tw:leading-tight tw:text-[#1c1c1a] tw:sm:text-4xl">
+            <h1 className="rc-serif tw:mt-2 tw:text-xl tw:font-semibold tw:leading-tight tw:text-[#1c1c1a] tw:sm:text-3xl">
               {productName}
             </h1>
 
@@ -710,7 +710,7 @@ export default function ProductDetail() {
                 Price
             ================================================= */}
 
-            <div className="tw:mt-6 tw:border-t-2 tw:border-[#b08d3e] tw:bg-white tw:p-5 tw:shadow-[0_1px_3px_rgba(28,28,26,0.06)]">
+            <div className="tw:mt-6 tw:border-t-2 tw:border-[#b08d3e] tw:bg-white tw:p-2 tw:sm:p-5 tw:shadow-[0_1px_3px_rgba(28,28,26,0.06)]">
               <div className="tw:flex tw:flex-wrap tw:items-baseline tw:gap-3">
                 <span className="rc-serif tw:text-3xl tw:font-semibold tw:text-[#1c1c1a]">
                   {formatINR(price)}
