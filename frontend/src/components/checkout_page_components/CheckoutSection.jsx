@@ -73,7 +73,9 @@ const CheckoutSection = () => {
   );
 
   const discount = appliedCoupon ? Math.round(subtotal * 0.1) : 0;
-  const finalTotal = subtotal + Number(shipping || 0) - discount;
+  // Coupon applied → no shipping charge
+  const effectiveShipping = discount > 0 ? 0 : Number(shipping || 0);
+  const finalTotal = subtotal + effectiveShipping - discount;
 
   // --------------------------------------------------
   // AUTO SELECT DEFAULT ADDRESS
@@ -860,9 +862,9 @@ const CheckoutSection = () => {
                     <span className="tw:text-gray-500">Shipping</span>
 
                     <span className="tw:font-medium tw:text-[#37252C]">
-                      {Number(shipping || 0) === 0
+                      {Number(effectiveShipping || 0) === 0
                         ? "FREE"
-                        : `₹${formatINR(shipping)}`}
+                        : `₹${formatINR(effectiveShipping)}`}
                     </span>
                   </div>
 

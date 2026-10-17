@@ -18,13 +18,14 @@ export const calculateShipping = (subtotal) => {
     return 0;
   }
 
-  return (subtotal = 0);
+  return subtotal > 999 ? 0 : 80;
 };
 
 export const calculateCartSummary = (items) => {
   const { totalItems, subtotal } = calculateCartTotals(items);
 
   const shipping = calculateShipping(subtotal);
+  console.log("shipping util",shipping)
 
   // We will implement coupons/promotions later
   const discount = 0;

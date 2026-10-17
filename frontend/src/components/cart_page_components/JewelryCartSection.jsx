@@ -527,6 +527,8 @@ export default function JewelryCartSection() {
 
   const navigate = useNavigate();
 
+  console.log("shipping in cart",shipping)
+
   /* ============================================================
      LOADING
   ============================================================ */

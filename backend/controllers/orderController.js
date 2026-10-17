@@ -3,6 +3,7 @@ import Cart from "../models/cartModel.js";
 import Address from "../models/addressModel.js";
 import productModel from "../models/productModel.js";
 import crypto from "crypto"; //for verifying rzp payment
+import { calculateShipping } from "../utils/cartUtils.js";
 
 import Razorpay from "razorpay";
 import { sendOrderEmails } from "../utils/sendOrderEmails.js";
@@ -48,7 +49,10 @@ export const createOrderAtRzp = async (req, res) => {
       return res.json({ success: false, message: "Cart is empty" });
     }
 
-    const amount = cart.totalPrice - getDiscount(cart.totalPrice, couponCode);
+    const subtotal = cart.totalPrice;
+    const discount = getDiscount(subtotal, couponCode);
+    const shipping = discount > 0 ? 0 : calculateShipping(subtotal);
+    const amount = subtotal - discount + shipping;
 
     const createdOrder = await razorpay.orders.create({
       amount: Math.round(amount * 100),
@@ -227,10 +231,10 @@ export const createOrder = async (req, res) => {
       price: item.price,
     }));
 
-    // const shipping = subtotal > 999 ? 0 : 100;
     const subtotal = cart.totalPrice;
-    const shipping = 0;
     const discount = getDiscount(subtotal, couponCode);
+    // A valid coupon means free shipping
+    const shipping = discount > 0 ? 0 : calculateShipping(subtotal);
     const totalAmount = subtotal + shipping - discount;
 
     const customOrderId = await generateOrderId();

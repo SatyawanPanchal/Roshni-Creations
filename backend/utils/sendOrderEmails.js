@@ -34,7 +34,7 @@ export const sendOrderEmails = async ({ order, customerEmail, customerName }) =>
 
   // ---------- EMAIL TO CUSTOMER ----------
   const customerMail = {
-    from: `"Roshni Creations" <${process.env.EMAIL_USER}>`,
+    from: `"Roshni Creations"`,
     to: customerEmail,
     subject: `Order Confirmed - ${order.customOrderId}`,
     html: `
@@ -60,8 +60,8 @@ export const sendOrderEmails = async ({ order, customerEmail, customerName }) =>
 
   // ---------- EMAIL TO ADMIN ----------
   const adminMail = {
-    from: `"Roshni Creations" <${process.env.EMAIL_USER}>`,
-    to: process.env.ADMIN_EMAIL,
+    from: `"Roshni Creations" <${process.env.EMAIL}>`,
+    to: process.env.EMAIL,
     subject: `New Order Placed - ${order.customOrderId}`,
     html: `
       <h2>New order received</h2>
@@ -75,5 +75,6 @@ export const sendOrderEmails = async ({ order, customerEmail, customerName }) =>
   await Promise.all([
     transporter.sendMail(customerMail),
     transporter.sendMail(adminMail),
-  ]);
+  ])
+  ;
 };
