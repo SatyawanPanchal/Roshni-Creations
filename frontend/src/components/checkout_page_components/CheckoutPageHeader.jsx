@@ -192,7 +192,7 @@ const CheckoutPageHeader = () => {
             <div
               className="
                 tw:flex
-                tw:h-[21px]
+                tw:h-5.25
                 tw:w-[21px]
                 tw:shrink-0
                 tw:items-center
