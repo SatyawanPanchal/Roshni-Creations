@@ -42,6 +42,7 @@ import { registerToast } from "./admin/utils/toast";
 import AdminProductDetail from "./admin/pages/products/AdminProductDetail";
 import MobileFloatingMenu from "./components/MobileFloatingMenu";
 import AssistancePage from "./components/AssistancePage";
+import ExhibitionOffer from "./components/ExhibitionOffer";
 
 // ============================================================
 // CUSTOMER LAYOUT
@@ -52,6 +53,8 @@ const CustomerLayout = () => {
     <>
       <Navbar />
       <div className="tw:h-24 tw:lg:h-36" />
+
+      <ExhibitionOffer />
 
       {/* menu button */}
       <MobileFloatingMenu />

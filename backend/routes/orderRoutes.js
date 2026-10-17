@@ -11,6 +11,7 @@ import {
   updateOrderPaymentStatus,
   updateOrderStatus,
   getOrderByIdAdmin,
+  applyCoupon,
 } from "../controllers/orderController.js";
 
 import authMiddleware from "../middleware/authMiddleware.js";
@@ -63,6 +64,6 @@ router.patch(
 );
 router.patch("/cancel/:id", authMiddleware, adminMiddleware, cancelOrder);
 
-router.post("/apply-coupon", authMiddleware, applyCoupon);
+router.post("/apply-coupon", applyCoupon);
 
 export default router;

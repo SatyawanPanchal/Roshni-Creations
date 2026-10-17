@@ -93,7 +93,7 @@ export default function Recommended() {
         <hr className="tw:mt-4 tw:mb-8 tw:sm:mb-10 tw:border-gray-200" />
 
         {/* Products */}
-        <div className="tw:grid tw:grid-cols-1 tw:sm:grid-cols-2 tw:lg:grid-cols-4 tw:gap-x-6 tw:gap-y-10">
+        <div className="tw:grid tw:grid-cols-2 tw:sm:grid-cols-2 tw:lg:grid-cols-4 tw:gap-x-6 tw:gap-y-10">
           {recommendedProducts.map((product) => (
             <ProductCard key={product._id || product.id} product={product} />
           ))}

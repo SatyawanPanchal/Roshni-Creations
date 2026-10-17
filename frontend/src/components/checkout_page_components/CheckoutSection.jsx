@@ -68,7 +68,9 @@ const CheckoutSection = () => {
   const [isProcessing, setIsProcessing] = useState(false);
 
   const [couponInput, setCouponInput] = useState("");
-  const [appliedCoupon, setAppliedCoupon] = useState("");
+  const [appliedCoupon, setAppliedCoupon] = useState(
+    () => localStorage.getItem("exhibition_coupon") || "",
+  );
 
   const discount = appliedCoupon ? Math.round(subtotal * 0.1) : 0;
   const finalTotal = subtotal + Number(shipping || 0) - discount;
@@ -386,6 +388,8 @@ const CheckoutSection = () => {
       // --------------------------------------------
 
       localStorage.setItem("roshni_last_order", JSON.stringify(createdOrder));
+
+      localStorage.removeItem("exhibition_coupon");
 
       navigate("/orderConfirmed", {
         state: {
@@ -827,17 +831,17 @@ const CheckoutSection = () => {
 
                 <Divider />
 
-                <div className="tw:flex tw:gap-2 tw:mb-4">
+                <div className="tw:mb-4 tw:flex tw:w-full tw:flex-col tw:gap-2 tw:sm:flex-row">
                   <InputText
                     value={couponInput}
                     onChange={(e) => setCouponInput(e.target.value)}
                     placeholder="Coupon code"
-                    className="tw:flex-1"
+                    className="tw:w-full tw:min-w-0 tw:sm:flex-1"
                   />
                   <Button
                     label="Apply"
                     onClick={handleApplyCoupon}
-                    className={ACCENT_BUTTON_CLASS}
+                    className={`tw:w-full tw:shrink-0 tw:!justify-center tw:sm:w-auto ${ACCENT_BUTTON_CLASS}`}
                   />
                 </div>
 

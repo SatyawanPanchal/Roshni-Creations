@@ -26,8 +26,11 @@ const CartContext = createContext(null);
 const CART_STORAGE_KEY = "roshni_cart";
 const SAVED_STORAGE_KEY = "roshni_saved_items";
 
-const SHIPPING_THRESHOLD = 999;
-const SHIPPING_CHARGE = 100;
+// const SHIPPING_THRESHOLD = 999;
+// const SHIPPING_CHARGE = 100;
+
+const SHIPPING_THRESHOLD = 0;
+const SHIPPING_CHARGE = 0;
 
 export const CartProvider = ({ children }) => {
   const { isAuthenticated, loading: authLoading } = useAuth();
