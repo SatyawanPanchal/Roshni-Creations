@@ -3,8 +3,7 @@ import axios from "axios";
 // api calling for whole website at one place
 const api = axios.create({
   baseURL:
-    import.meta.env.VITE_API_URL ||
-    "https://backend.roshnicreations.com/api",
+    import.meta.env.VITE_API_URL,
   withCredentials: true,
   headers: { "Content-Type": "application/json" },
 });

@@ -1,8 +1,6 @@
 import axios from "axios";
 
-export const API_BASE_URL =
-  import.meta.env.VITE_API_BASE_URL ||
-  "https://backend.roshnicreations.com/api";
+export const API_BASE_URL = import.meta.env.VITE_API_URL;
 
 const TOKEN_KEY = "rc_access_token";
 const USER_KEY = "rc_admin_user";

@@ -110,14 +110,27 @@ const SearchOverlay = ({ isOpen, onClose, topOffset = 0 }) => {
   /*
    * Search backend products
    */
+  /*
+   * Search backend products
+   */
   const results = useMemo(() => {
     const q = query.trim().toLowerCase();
 
     if (!q) return [];
 
+    // "RC-FJ-004", "rc fj 004" and "rcfj004" should all match the same code
+    const normalize = (value) =>
+      String(value || "")
+        .toLowerCase()
+        .replace(/[^a-z0-9]/g, "");
+
+    const qNormalized = normalize(q);
+
     return products
       .filter((product) => {
         const name = String(product.name || "").toLowerCase();
+
+        const productCode = String(product.productCode || "").toLowerCase();
 
         const category =
           typeof product.category === "object"
@@ -140,7 +153,12 @@ const SearchOverlay = ({ isOpen, onClose, topOffset = 0 }) => {
               .join(" ")
           : "";
 
+        const codeMatch =
+          productCode.includes(q) ||
+          (qNormalized && normalize(productCode).includes(qNormalized));
+
         return (
+          codeMatch ||
           name.includes(q) ||
           category.includes(q) ||
           subcategory.includes(q) ||
