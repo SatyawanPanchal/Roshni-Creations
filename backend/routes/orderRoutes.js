@@ -63,4 +63,6 @@ router.patch(
 );
 router.patch("/cancel/:id", authMiddleware, adminMiddleware, cancelOrder);
 
+router.post("/apply-coupon", authMiddleware, applyCoupon);
+
 export default router;

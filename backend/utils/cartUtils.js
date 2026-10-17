@@ -18,7 +18,7 @@ export const calculateShipping = (subtotal) => {
     return 0;
   }
 
-  return subtotal > 999 ? 0 : 100;
+  return (subtotal = 0);
 };
 
 export const calculateCartSummary = (items) => {

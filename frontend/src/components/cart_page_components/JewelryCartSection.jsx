@@ -914,11 +914,11 @@ export default function JewelryCartSection() {
                   />
                 )}
 
-                <SummaryRow
+                {/* <SummaryRow
                   label="Estimated taxes (GST 3%)"
                   value={formatINR(tax)}
                   muted
-                />
+                /> */}
               </div>
 
               {/* TOTAL */}

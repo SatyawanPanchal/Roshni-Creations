@@ -128,6 +128,8 @@ const orderSchema = new mongoose.Schema(
       type: String,
       default: "",
     },
+    discount: { type: Number, default: 0 },
+    couponCode: { type: String },
   },
   {
     timestamps: true,

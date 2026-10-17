@@ -15,15 +15,45 @@ const razorpay = new Razorpay({
 
 // controller to create order for request to razorpay server, this will return an order id which will be used for making request to different apis
 
+// export const createOrderAtRzp = async (req, res) => {
+//   const { totalPrice } = req.body;
+//   console.log("total price", totalPrice);
+//   try {
+//     const createdOrder = await razorpay.orders.create({
+//       amount: totalPrice * 100,
+//       currency: "INR",
+//     });
+//     console.log(createdOrder);
+
+//     res.json({
+//       success: true,
+//       message: "order created successfully",
+//       order: createdOrder,
+//     });
+//   } catch (error) {
+//     console.log("error at rzp order creation", error);
+//     res.json({
+//       success: false,
+//       message: "some error occurred",
+//       error: error.message,
+//     });
+//   }
+// };
+
 export const createOrderAtRzp = async (req, res) => {
-  const { totalPrice } = req.body;
-  console.log("total price", totalPrice);
+  const { couponCode } = req.body;
   try {
+    const cart = await Cart.findOne({ userId: req.user._id });
+    if (!cart || !cart.totalPrice) {
+      return res.json({ success: false, message: "Cart is empty" });
+    }
+
+    const amount = cart.totalPrice - getDiscount(cart.totalPrice, couponCode);
+
     const createdOrder = await razorpay.orders.create({
-      amount: totalPrice * 100,
+      amount: Math.round(amount * 100),
       currency: "INR",
     });
-    console.log(createdOrder);
 
     res.json({
       success: true,
@@ -88,6 +118,23 @@ export const verifyOrderAtRzp = async (req, res) => {
   }
 };
 
+// coupon code logic
+const COUPON_CODE = "EXHIBITION10"; // change to your code
+const COUPON_PERCENT = 10;
+
+const getDiscount = (subtotal, code) =>
+  code && code.trim().toUpperCase() === COUPON_CODE
+    ? Math.round((subtotal * COUPON_PERCENT) / 100)
+    : 0;
+
+export const applyCoupon = (req, res) => {
+  const { couponCode } = req.body;
+  if (getDiscount(100, couponCode) === 0) {
+    return res.json({ success: false, message: "Invalid coupon code" });
+  }
+  res.json({ success: true, message: "Coupon applied" });
+};
+
 // Short order ID
 const generateOrderId = async () => {
   let id;
@@ -103,7 +150,7 @@ const generateOrderId = async () => {
 export const createOrder = async (req, res) => {
   try {
     const userId = req.user._id;
-    const { addressId, paymentStatus } = req.body;
+    const { addressId, paymentStatus, couponCode } = req.body;
 
     // Validate address
     if (!addressId) {
@@ -180,9 +227,11 @@ export const createOrder = async (req, res) => {
       price: item.price,
     }));
 
+    // const shipping = subtotal > 999 ? 0 : 100;
     const subtotal = cart.totalPrice;
-    const shipping = subtotal > 999 ? 0 : 100;
-    const totalAmount = subtotal + shipping;
+    const shipping = 0;
+    const discount = getDiscount(subtotal, couponCode);
+    const totalAmount = subtotal + shipping - discount;
 
     const customOrderId = await generateOrderId();
 
@@ -197,6 +246,8 @@ export const createOrder = async (req, res) => {
       paymentMethod: "ONLINE",
       paymentStatus: paymentStatus,
       orderStatus: "Pending",
+      discount,
+      couponCode: discount > 0 ? couponCode.trim().toUpperCase() : undefined,
     });
 
     // ---------- 3. Clear the cart LAST ----------

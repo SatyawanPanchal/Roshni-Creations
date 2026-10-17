@@ -67,6 +67,12 @@ const CheckoutSection = () => {
 
   const [isProcessing, setIsProcessing] = useState(false);
 
+  const [couponInput, setCouponInput] = useState("");
+  const [appliedCoupon, setAppliedCoupon] = useState("");
+
+  const discount = appliedCoupon ? Math.round(subtotal * 0.1) : 0;
+  const finalTotal = subtotal + Number(shipping || 0) - discount;
+
   // --------------------------------------------------
   // AUTO SELECT DEFAULT ADDRESS
   // --------------------------------------------------
@@ -196,14 +202,13 @@ const CheckoutSection = () => {
     try {
       // console.log("form data here", formData);
       const response = await api.post("/order/create-order", {
-        totalPrice: total,
+        couponCode: appliedCoupon,
       });
 
       console.log(response);
 
       if (!response?.data?.order?.id) {
-        throw new Error("Order creation failed");
-        return;
+        throw new Error(response?.data?.message || "Order creation failed");
       }
 
       //////////////////////////////////////
@@ -349,6 +354,7 @@ const CheckoutSection = () => {
         addressId: selectedAddressId,
         paymentMethod: "ONLINE",
         paymentStatus: isPaymentTrue && "Paid",
+        couponCode: appliedCoupon,
       };
 
       // --------------------------------------------
@@ -443,6 +449,35 @@ const CheckoutSection = () => {
       </section>
     );
   }
+
+  const handleApplyCoupon = async () => {
+    try {
+      const res = await api.post("/order/apply-coupon", {
+        couponCode: couponInput,
+      });
+      if (res.data.success) {
+        setAppliedCoupon(couponInput.trim().toUpperCase());
+        toast.current?.show({
+          severity: "success",
+          summary: "Coupon applied",
+          life: 3000,
+        });
+      } else {
+        setAppliedCoupon("");
+        toast.current?.show({
+          severity: "error",
+          summary: res.data.message,
+          life: 3000,
+        });
+      }
+    } catch {
+      toast.current?.show({
+        severity: "error",
+        summary: "Could not apply coupon",
+        life: 3000,
+      });
+    }
+  };
 
   return (
     <>
@@ -792,6 +827,20 @@ const CheckoutSection = () => {
 
                 <Divider />
 
+                <div className="tw:flex tw:gap-2 tw:mb-4">
+                  <InputText
+                    value={couponInput}
+                    onChange={(e) => setCouponInput(e.target.value)}
+                    placeholder="Coupon code"
+                    className="tw:flex-1"
+                  />
+                  <Button
+                    label="Apply"
+                    onClick={handleApplyCoupon}
+                    className={ACCENT_BUTTON_CLASS}
+                  />
+                </div>
+
                 {/* PRICE BREAKDOWN */}
 
                 <div className="tw:flex tw:flex-col tw:gap-3 tw:text-sm">
@@ -812,6 +861,17 @@ const CheckoutSection = () => {
                         : `₹${formatINR(shipping)}`}
                     </span>
                   </div>
+
+                  {discount > 0 && (
+                    <div className="tw:flex tw:items-center tw:justify-between tw:gap-4">
+                      <span className="tw:text-gray-500">
+                        Coupon ({appliedCoupon})
+                      </span>
+                      <span className="tw:font-medium tw:text-green-700">
+                        − ₹{formatINR(discount)}
+                      </span>
+                    </div>
+                  )}
                 </div>
 
                 <Divider />
@@ -824,7 +884,7 @@ const CheckoutSection = () => {
                   </span>
 
                   <span className="tw:text-xl tw:font-semibold tw:text-[#37252C]">
-                    ₹{formatINR(total)}
+                    ₹{formatINR(finalTotal)}
                   </span>
                 </div>
 
@@ -834,7 +894,7 @@ const CheckoutSection = () => {
                   label={
                     isProcessing
                       ? "Processing..."
-                      : `COMPLETE ORDER & PAY ₹${formatINR(total)}`
+                      : `COMPLETE ORDER & PAY ₹${formatINR(finalTotal)}`
                   }
                   icon={!isProcessing ? <LockKeyhole size={16} /> : undefined}
                   loading={isProcessing}

@@ -304,7 +304,8 @@ const updateCart = async (req, res) => {
       .findOne({ userId })
       .populate("items.productId");
 
-    const shipping = totalPrice > 999 ? 0 : 80;
+    // const shipping = totalPrice > 999 ? 0 : 80;
+    const shipping = 0;
     const grandTotal = totalPrice + shipping;
 
     return res.status(200).json({
