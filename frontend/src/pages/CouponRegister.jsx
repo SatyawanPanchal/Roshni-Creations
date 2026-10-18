@@ -1,10 +1,19 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { jsPDF } from "jspdf";
 import { InputText } from "primereact/inputtext";
 import { Button } from "primereact/button";
-import { Gift, User, Phone, MapPin, Download, Copy, Check, Sparkles } from "lucide-react";
+import {
+  Gift,
+  User,
+  Phone,
+  MapPin,
+  Download,
+  Copy,
+  Check,
+  Sparkles,
+} from "lucide-react";
 import api from "../services/api.js";
-import logo from "../assets/logo.webp"
+import logo from "../assets/logo.webp";
 
 const GREEN = "#0C3F37";
 
@@ -30,6 +39,16 @@ const CouponRegister = () => {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const [copied, setCopied] = useState(false);
+
+  useEffect(() => {
+    if (!code) return;
+
+    const timer = setTimeout(() => {
+      window.location.href = "/products";
+    }, 10000);
+
+    return () => clearTimeout(timer);
+  }, [code]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -169,6 +188,9 @@ const CouponRegister = () => {
               onClick={downloadPdf}
               className={BUTTON_CLASS}
             />
+            <p className="tw:mt-4 tw:text-xs tw:text-gray-500">
+              Redirecting to our products in 10 seconds...
+            </p>
           </div>
         ) : (
           /* SCREEN 1: form */
