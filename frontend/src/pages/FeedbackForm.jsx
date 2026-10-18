@@ -1,6 +1,8 @@
-import { useState } from "react";
+/* eslint-disable no-unused-vars */
+import { useState, useRef, useEffect } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { submitFeedback } from "../services/feedbackApi.js";
+import { Toast } from "primereact/toast";
 
 const LIKED = [
   "Design",
@@ -44,7 +46,21 @@ export default function FeedbackForm() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
+  const toast = useRef(null);
+
   const navigate = useNavigate();
+
+  const submittedKey = `feedback_submitted_${event}`;
+
+  const [alreadySubmitted, setAlreadySubmitted] = useState(
+    () => localStorage.getItem(submittedKey) === "true",
+  );
+
+  const redirectTimer = useRef(null);
+
+  useEffect(() => {
+    return () => clearTimeout(redirectTimer.current);
+  }, []);
 
   const toggle = (list, setList, item, max = 99) => {
     if (list.includes(item)) setList(list.filter((i) => i !== item));
@@ -53,11 +69,16 @@ export default function FeedbackForm() {
 
   const submit = async (e) => {
     e.preventDefault();
+
+    if (alreadySubmitted || loading) return;
+
     if (!rating || !purchased) {
       return setError("Please give a rating and tell us if you purchased.");
     }
+
     setError("");
     setLoading(true);
+
     try {
       await submitFeedback({
         event,
@@ -70,7 +91,20 @@ export default function FeedbackForm() {
         contact,
         optIn,
       });
-      setDone(true);
+
+      localStorage.setItem(submittedKey, "true");
+      setAlreadySubmitted(true);
+
+      toast.current.show({
+        severity: "success",
+        summary: "Thank you!",
+        detail: "Your feedback has been submitted successfully.",
+        life: 3000,
+      });
+
+      redirectTimer.current = setTimeout(() => {
+        navigate("/products", { replace: true });
+      }, 3000);
     } catch (err) {
       setError(
         err.response?.data?.message || "Could not submit. Please try again.",
@@ -80,162 +114,173 @@ export default function FeedbackForm() {
     }
   };
 
-  if (done) {
-    navigate("/products");
-    // return (
-    //   <div className="tw:min-h-screen tw:flex tw:flex-col tw:items-center tw:justify-center tw:p-6 tw:text-center tw:bg-[#FAF7EF]">
-    //     <div className="tw:text-5xl tw:mb-4">💛</div>
-    //     <h1 className="tw:text-2xl tw:font-semibold tw:mb-2 tw:text-[#1C2B28]">Thank you!</h1>
-    //     {/* <p className="tw:text-[#5E6D67] tw:mb-4">Show this screen at our stall to get your gift.</p> */}
-    //     {/* <div className="tw:border-2 tw:border-dashed tw:border-[#AD8A3F] tw:rounded-xl tw:px-6 tw:py-3 tw:text-xl tw:font-bold tw:text-[#AD8A3F]">
-    //       THANKS10
-    //     </div> */}
-    //   </div>
-    // );
+  if (alreadySubmitted) {
+    return (
+      <div className="tw:min-h-screen tw:flex tw:flex-col tw:items-center tw:justify-center tw:bg-[#FAF7EF] tw:p-6 tw:text-center">
+        <h1 className="tw:text-2xl tw:font-semibold tw:text-[#1F4E47]">
+          Thank you! 💚
+        </h1>
+        <p className="tw:mt-3 tw:text-[#5E6D67]">
+          Your feedback has already been submitted.
+        </p>
+        <button
+          type="button"
+          onClick={() => navigate("/products", { replace: true })}
+          className="tw:mt-5 tw:rounded-xl tw:bg-[#1F4E47] tw:px-6 tw:py-3 tw:text-white"
+        >
+          Continue to Products
+        </button>
+      </div>
+    );
   }
 
   return (
-    <form
-      onSubmit={submit}
-      className="tw:max-w-md tw:mx-auto tw:p-5 tw:space-y-6 tw:bg-[#FAF7EF] tw:min-h-screen"
-    >
-      <div className="tw:text-center">
-        <h1 className="tw:text-2xl tw:font-semibold tw:text-[#1C2B28]">
-          How was your visit?
-        </h1>
-        <p className="tw:text-[#5E6D67] tw:text-sm">
-          Takes less than 30 seconds 🙏
-        </p>
-      </div>
-
-      {/* 1. Rating */}
-      <div>
-        <p className="tw:font-medium tw:mb-2">Overall experience *</p>
-        <div className="tw:flex tw:justify-between">
-          {EMOJI.map((e, i) => (
-            <button
-              type="button"
-              key={i}
-              onClick={() => setRating(i + 1)}
-              className={
-                "tw:text-3xl tw:p-2 tw:rounded-xl " +
-                (rating === i + 1 ? "tw:bg-[#E7E0CE]" : "tw:opacity-60")
-              }
-            >
-              {e}
-            </button>
-          ))}
+    <>
+      <Toast ref={toast} position="top-center" />
+      <form
+        onSubmit={submit}
+        className="tw:max-w-md tw:mx-auto tw:p-5 tw:space-y-6 tw:bg-[#FAF7EF] tw:min-h-screen"
+      >
+        <div className="tw:text-center">
+          <h1 className="tw:text-2xl tw:font-semibold tw:text-[#1C2B28]">
+            How was your visit?
+          </h1>
+          <p className="tw:text-[#5E6D67] tw:text-sm">
+            Takes less than 30 seconds 🙏
+          </p>
         </div>
-      </div>
 
-      {/* 2. Liked most */}
-      <div>
-        <p className="tw:font-medium tw:mb-2">
-          What did you like most? (pick up to 2)
-        </p>
-        <div className="tw:flex tw:flex-wrap tw:gap-2">
-          {LIKED.map((l) => (
-            <button
-              type="button"
-              key={l}
-              onClick={() => toggle(liked, setLiked, l, 2)}
-              className={chip(liked.includes(l))}
-            >
-              {l}
-            </button>
-          ))}
-        </div>
-      </div>
-
-      {/* 3. Purchased */}
-      <div>
-        <p className="tw:font-medium tw:mb-2">Did you purchase today? *</p>
-        <div className="tw:flex tw:gap-2">
-          {[
-            ["yes", "Yes"],
-            ["no", "No"],
-            ["thinking", "Thinking"],
-          ].map(([v, label]) => (
-            <button
-              type="button"
-              key={v}
-              onClick={() => setPurchased(v)}
-              className={chip(purchased === v)}
-            >
-              {label}
-            </button>
-          ))}
-        </div>
-      </div>
-
-      {/* 4. Reasons (only if not purchased) */}
-      {(purchased === "no" || purchased === "thinking") && (
+        {/* 1. Rating */}
         <div>
-          <p className="tw:font-medium tw:mb-2">What stopped you?</p>
-          <div className="tw:flex tw:flex-wrap tw:gap-2">
-            {REASONS.map((r) => (
+          <p className="tw:font-medium tw:mb-2">Overall experience *</p>
+          <div className="tw:flex tw:justify-between">
+            {EMOJI.map((e, i) => (
               <button
                 type="button"
-                key={r}
-                onClick={() => toggle(reasons, setReasons, r)}
-                className={chip(reasons.includes(r))}
+                key={i}
+                onClick={() => setRating(i + 1)}
+                className={
+                  "tw:text-3xl tw:p-2 tw:rounded-xl " +
+                  (rating === i + 1 ? "tw:bg-[#E7E0CE]" : "tw:opacity-60")
+                }
               >
-                {r}
+                {e}
               </button>
             ))}
           </div>
         </div>
-      )}
 
-      {/* 5. Suggestion */}
-      <div>
-        <p className="tw:font-medium tw:mb-2">
-          Anything we should add or improve?
-        </p>
-        <textarea
-          value={suggestion}
-          onChange={(e) => setSuggestion(e.target.value)}
-          maxLength={500}
-          rows={3}
-          placeholder="e.g. more silver pieces, custom orders..."
-          className={inputCls}
-        />
-      </div>
+        {/* 2. Liked most */}
+        <div>
+          <p className="tw:font-medium tw:mb-2">
+            What did you like most? (pick up to 2)
+          </p>
+          <div className="tw:flex tw:flex-wrap tw:gap-2">
+            {LIKED.map((l) => (
+              <button
+                type="button"
+                key={l}
+                onClick={() => toggle(liked, setLiked, l, 2)}
+                className={chip(liked.includes(l))}
+              >
+                {l}
+              </button>
+            ))}
+          </div>
+        </div>
 
-      {/* 6. Contact */}
-      <div className="tw:space-y-3">
-        <p className="tw:font-medium">Stay in touch (optional)</p>
-        <input
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          placeholder="Your name"
-          className={inputCls}
-        />
-        <input
-          value={contact}
-          onChange={(e) => setContact(e.target.value)}
-          placeholder="WhatsApp number or Instagram"
-          className={inputCls}
-        />
-        <label className="tw:flex tw:items-center tw:gap-2 tw:text-sm tw:text-[#5E6D67]">
-          <input
-            type="checkbox"
-            checked={optIn}
-            onChange={(e) => setOptIn(e.target.checked)}
+        {/* 3. Purchased */}
+        <div>
+          <p className="tw:font-medium tw:mb-2">Did you purchase today? *</p>
+          <div className="tw:flex tw:gap-2">
+            {[
+              ["yes", "Yes"],
+              ["no", "No"],
+              ["thinking", "Thinking"],
+            ].map(([v, label]) => (
+              <button
+                type="button"
+                key={v}
+                onClick={() => setPurchased(v)}
+                className={chip(purchased === v)}
+              >
+                {label}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {/* 4. Reasons (only if not purchased) */}
+        {(purchased === "no" || purchased === "thinking") && (
+          <div>
+            <p className="tw:font-medium tw:mb-2">What stopped you?</p>
+            <div className="tw:flex tw:flex-wrap tw:gap-2">
+              {REASONS.map((r) => (
+                <button
+                  type="button"
+                  key={r}
+                  onClick={() => toggle(reasons, setReasons, r)}
+                  className={chip(reasons.includes(r))}
+                >
+                  {r}
+                </button>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* 5. Suggestion */}
+        <div>
+          <p className="tw:font-medium tw:mb-2">
+            Anything we should add or improve?
+          </p>
+          <textarea
+            value={suggestion}
+            onChange={(e) => setSuggestion(e.target.value)}
+            maxLength={500}
+            rows={3}
+            placeholder="e.g. more silver pieces, custom orders..."
+            className={inputCls}
           />
-          Send me new collection updates and offers
-        </label>
-      </div>
+        </div>
 
-      {error && <p className="tw:text-[#9C4E3A] tw:text-sm">{error}</p>}
+        {/* 6. Contact */}
+        <div className="tw:space-y-3">
+          <p className="tw:font-medium">Stay in touch (optional)</p>
+          <input
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            placeholder="Your name"
+            className={inputCls}
+            required
+          />
+          <input
+            value={contact}
+            onChange={(e) => setContact(e.target.value)}
+            placeholder="WhatsApp number or Instagram"
+            className={inputCls}
+            required
+          />
+          <label className="tw:flex tw:items-center tw:gap-2 tw:text-sm tw:text-[#5E6D67]">
+            <input
+              type="checkbox"
+              checked={optIn}
+              onChange={(e) => setOptIn(e.target.checked)}
+            />
+            Send me new collection updates and offers
+          </label>
+        </div>
 
-      <button
-        type="submit"
-        disabled={loading}
-        className="tw:w-full tw:bg-[#1F4E47] tw:text-white tw:py-3 tw:rounded-xl tw:text-lg tw:font-medium tw:disabled:opacity-60"
-      >
-        {loading ? "Sending..." : "Submit"}
-      </button>
-    </form>
+        {error && <p className="tw:text-[#9C4E3A] tw:text-sm">{error}</p>}
+
+        <button
+          type="submit"
+          disabled={loading || alreadySubmitted}
+          className="tw:w-full tw:bg-[#1F4E47] tw:text-white tw:py-3 tw:rounded-xl tw:text-lg tw:font-medium tw:disabled:opacity-60"
+        >
+          {loading ? "Sending..." : "Submit"}
+        </button>
+      </form>
+    </>
   );
 }
