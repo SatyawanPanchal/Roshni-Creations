@@ -14,6 +14,8 @@ import addressRouter from "./routes/addressRoutes.js";
 import categoryRoutes from "./routes/categoryRoutes.js";
 import collectionRoutes from "./routes/collectionRoutes.js";
 import couponRoutes from "./routes/couponRoutes.js";
+import feedbackRoutes from "./routes/feedbackRoutes.js";
+import adminFeedbackRoutes from "./routes/adminFeedbackRoutes.js";
 configDotenv();
 
 const __filename = fileURLToPath(import.meta.url);
@@ -43,6 +45,8 @@ app.use("/api/addresses", addressRouter);
 app.use("/api/categories", categoryRoutes);
 app.use("/api/collections", collectionRoutes);
 app.use("/api/coupon", couponRoutes);
+app.use("/api/feedback", feedbackRoutes);
+app.use("/api/admin/feedback", adminFeedbackRoutes);
 
 app.listen(port, () => {
   console.log(`Server is listening at port ${port}`);

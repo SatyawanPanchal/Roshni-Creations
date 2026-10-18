@@ -1,17 +1,17 @@
 import crypto from "crypto";
 import Coupon from "../models/couponModel.js";
+import Counter from "../models/counterModel.js";
 
 // no 0, O, 1, I so staff don't confuse them
 const CHARS = "23456789ABCDEFGHJKLMNPQRSTUVWXYZ";
 
 const generateCode = async () => {
-  let code;
-  do {
-    let random = "";
-    for (let i = 0; i < 4; i++) random += CHARS[crypto.randomInt(CHARS.length)];
-    code = `KREX${random}`;
-  } while (await Coupon.exists({ code }));
-  return code;
+  const counter = await Counter.findOneAndUpdate(
+    { _id: "coupon" },
+    { $inc: { seq: 1 } },
+    { new: true, upsert: true },
+  );
+  return `KREX${String(counter.seq).padStart(4, "0")}`;
 };
 
 export const registerForCoupon = async (req, res) => {

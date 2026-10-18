@@ -8,6 +8,7 @@ const NAV_ITEMS = [
   { to: "/admin/collections", icon: "pi-th-large", label: "Collections" },
   { to: "/admin/orders", icon: "pi-box", label: "Orders" },
   { to: "/admin/customers", icon: "pi-users", label: "Customers" },
+  { to: "/admin/feedback", icon: "pi-list", label: "Feedback" },
 ];
 
 export default function Sidebar({ open, onClose, user, onLogout }) {

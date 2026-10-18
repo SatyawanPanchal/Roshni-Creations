@@ -4,6 +4,7 @@ import { InputText } from "primereact/inputtext";
 import { Button } from "primereact/button";
 import { Gift, User, Phone, MapPin, Download, Copy, Check, Sparkles } from "lucide-react";
 import api from "../services/api.js";
+import logo from "../assets/logo.webp"
 
 const GREEN = "#0C3F37";
 
@@ -114,7 +115,7 @@ const CouponRegister = () => {
 
         <div className="tw:relative">
           <div className="tw:mx-auto tw:mb-3 tw:flex tw:h-14 tw:w-14 tw:items-center tw:justify-center tw:rounded-full tw:bg-white/20">
-            <Gift size={28} />
+            <img src={logo} alt="Roshni Creations Logo" />
           </div>
           <h1 className="tw:text-2xl tw:font-bold tw:sm:text-3xl">
             Roshni Creations

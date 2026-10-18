@@ -44,6 +44,8 @@ import MobileFloatingMenu from "./components/MobileFloatingMenu";
 import AssistancePage from "./components/AssistancePage";
 import ExhibitionOffer from "./components/ExhibitionOffer";
 import CouponRegister from "./pages/CouponRegister";
+import FeedbackForm from "./pages/FeedbackForm";
+import Feedback from "./admin/pages/Feedback/Feedback";
 
 // ============================================================
 // CUSTOMER LAYOUT
@@ -144,6 +146,7 @@ const App = () => {
 
           <Route path="/orderConfirmed" element={<OrderConfirmationPage />} />
           <Route path="/exhbRegistration" element={<CouponRegister />} />
+          <Route path="/feedback" element={<FeedbackForm />} />
         </Route>
 
         {/* ==================================================
@@ -233,6 +236,9 @@ const App = () => {
 
           {/* /admin/customers/:id */}
           <Route path="customers/:id" element={<CustomerDetail />} />
+
+          {/* ================= Feedback ================= */}
+          <Route path="/admin/feedback" element={<Feedback />} />
         </Route>
 
         {/* ==================================================
