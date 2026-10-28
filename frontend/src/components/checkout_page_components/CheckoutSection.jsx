@@ -67,15 +67,17 @@ const CheckoutSection = () => {
 
   const [isProcessing, setIsProcessing] = useState(false);
 
-  const [couponInput, setCouponInput] = useState("");
-  const [appliedCoupon, setAppliedCoupon] = useState(
-    () => localStorage.getItem("exhibition_coupon") || "",
-  );
+  // const [couponInput, setCouponInput] = useState("");
+  // const [appliedCoupon, setAppliedCoupon] = useState(
+  //   () => localStorage.getItem("exhibition_coupon") || "",
+  // );
 
-  const discount = appliedCoupon ? Math.round(subtotal * 0.1) : 0;
+  // const discount = appliedCoupon ? Math.round(subtotal * 0.1) : 0;
   // Coupon applied → no shipping charge
-  const effectiveShipping = discount > 0 ? 0 : Number(shipping || 0);
-  const finalTotal = subtotal + effectiveShipping - discount;
+  // const effectiveShipping = discount > 0 ? 0 : Number(shipping || 0);
+  // const finalTotal = subtotal + effectiveShipping - discount;
+
+  const finalTotal = Number(subtotal || 0) + Number(shipping || 0);
 
   // --------------------------------------------------
   // AUTO SELECT DEFAULT ADDRESS
@@ -783,9 +785,7 @@ const CheckoutSection = () => {
                 <div className="tw:flex tw:flex-col tw:gap-4">
                   {cartItems.map((item) => {
                     const itemImage = item.image || item.images?.[0] || "";
-
                     const itemName = item.name || "Product";
-
                     const itemPrice = Number(item.price || 0);
 
                     return (
@@ -833,7 +833,9 @@ const CheckoutSection = () => {
 
                 <Divider />
 
-                <div className="tw:mb-4 tw:flex tw:w-full tw:flex-col tw:gap-2 tw:sm:flex-row">
+                {/* Coupon Div */}
+
+                {/* <div className="tw:mb-4 tw:flex tw:w-full tw:flex-col tw:gap-2 tw:sm:flex-row">
                   <InputText
                     value={couponInput}
                     onChange={(e) => setCouponInput(e.target.value)}
@@ -845,7 +847,7 @@ const CheckoutSection = () => {
                     onClick={handleApplyCoupon}
                     className={`tw:w-full tw:shrink-0 tw:!justify-center tw:sm:w-auto ${ACCENT_BUTTON_CLASS}`}
                   />
-                </div>
+                </div> */}
 
                 {/* PRICE BREAKDOWN */}
 
@@ -862,13 +864,13 @@ const CheckoutSection = () => {
                     <span className="tw:text-gray-500">Shipping</span>
 
                     <span className="tw:font-medium tw:text-[#37252C]">
-                      {Number(effectiveShipping || 0) === 0
+                      {Number(shipping || 0) === 0
                         ? "FREE"
-                        : `₹${formatINR(effectiveShipping)}`}
+                        : `₹${formatINR(shipping)}`}
                     </span>
                   </div>
 
-                  {discount > 0 && (
+                  {/* {discount > 0 && (
                     <div className="tw:flex tw:items-center tw:justify-between tw:gap-4">
                       <span className="tw:text-gray-500">
                         Coupon ({appliedCoupon})
@@ -877,7 +879,7 @@ const CheckoutSection = () => {
                         − ₹{formatINR(discount)}
                       </span>
                     </div>
-                  )}
+                  )} */}
                 </div>
 
                 <Divider />

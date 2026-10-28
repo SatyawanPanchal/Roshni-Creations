@@ -42,10 +42,12 @@ import { registerToast } from "./admin/utils/toast";
 import AdminProductDetail from "./admin/pages/products/AdminProductDetail";
 import MobileFloatingMenu from "./components/MobileFloatingMenu";
 import AssistancePage from "./components/AssistancePage";
-import ExhibitionOffer from "./components/ExhibitionOffer";
+// import ExhibitionOffer from "./components/ExhibitionOffer";
 import CouponRegister from "./pages/CouponRegister";
 import FeedbackForm from "./pages/FeedbackForm";
 import Feedback from "./admin/pages/Feedback/Feedback";
+
+import AboutPage from "./pages/AboutPage";
 
 // ============================================================
 // CUSTOMER LAYOUT
@@ -57,14 +59,14 @@ const CustomerLayout = () => {
       <Navbar />
       <div className="tw:h-24 tw:lg:h-36" />
 
-      <ExhibitionOffer />
+      {/* <ExhibitionOffer /> */}
 
       {/* menu button */}
       <MobileFloatingMenu />
 
       {/* whatsapp button */}
       <a
-        href="https://wa.me/917082252235"
+        href="https://wa.me/918053789088"
         target="_blank"
         rel="noopener noreferrer"
         className="
@@ -147,6 +149,8 @@ const App = () => {
           <Route path="/orderConfirmed" element={<OrderConfirmationPage />} />
           <Route path="/exhbRegistration" element={<CouponRegister />} />
           <Route path="/feedback" element={<FeedbackForm />} />
+
+          <Route path="/about" element={<AboutPage/>}/>
         </Route>
 
         {/* ==================================================

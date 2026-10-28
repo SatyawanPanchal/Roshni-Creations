@@ -17,11 +17,13 @@ const HeroSection = () => {
       desktop: hero1,
       mobile: hero1Mobile,
       alt: "Roshni Creations Hero 1",
+      link: `/products/collection/${encodeURIComponent("Festive Edits")}`,
     },
     {
       desktop: hero2,
       mobile: hero2Mobile,
       alt: "Roshni Creations Hero 2",
+      link: "/products",
     },
   ];
 
@@ -29,7 +31,7 @@ const HeroSection = () => {
     return (
       <picture
         className="tw:block tw:w-full tw:h-full"
-        onClick={() => navigate("/products")}
+        onClick={() => navigate(item.link)}
       >
         {/* Mobile image */}
         <source media="(max-width: 767px)" srcSet={item.mobile} />

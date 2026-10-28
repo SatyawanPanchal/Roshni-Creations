@@ -33,6 +33,11 @@ const menuItems = [
     type: "collection",
     value: "Minimal Daily Wear",
   },
+  {
+    label: "About Us",
+    type: "link",
+    value: "about",
+  },
 ];
 
 const MenuBar = () => {
@@ -129,6 +134,11 @@ const MenuBar = () => {
     // Subcategory
     if (item.type === "subcategory") {
       navigate(`/products/subcategory/${encodeURIComponent(item.value)}`);
+    }
+
+    // link
+    if (item.type === "link") {
+      navigate(`/about`);
     }
   };
 
