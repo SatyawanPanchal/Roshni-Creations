@@ -19,9 +19,9 @@ const MobileFloatingMenu = () => {
       path: "/products",
     },
     {
-      label: "Cart",
+      label: "About Us",
       icon: "pi pi-shopping-cart",
-      path: "/cart",
+      path: "/about",
     },
   ];
 

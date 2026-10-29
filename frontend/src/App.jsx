@@ -48,6 +48,7 @@ import FeedbackForm from "./pages/FeedbackForm";
 import Feedback from "./admin/pages/Feedback/Feedback";
 
 import AboutPage from "./pages/AboutPage";
+import JewelleryCare from "./pages/JewelleryCare";
 
 // ============================================================
 // CUSTOMER LAYOUT
@@ -151,6 +152,7 @@ const App = () => {
           <Route path="/feedback" element={<FeedbackForm />} />
 
           <Route path="/about" element={<AboutPage/>}/>
+          <Route path="/care" element={<JewelleryCare/>}/>
         </Route>
 
         {/* ==================================================

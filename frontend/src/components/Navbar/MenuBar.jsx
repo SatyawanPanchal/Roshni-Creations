@@ -35,8 +35,13 @@ const menuItems = [
   },
   {
     label: "About Us",
-    type: "link",
+    type: "about",
     value: "about",
+  },
+  {
+    label: "Jewellery Care",
+    type: "care",
+    value: "care",
   },
 ];
 
@@ -137,8 +142,12 @@ const MenuBar = () => {
     }
 
     // link
-    if (item.type === "link") {
+    if (item.type === "about") {
       navigate(`/about`);
+    }
+
+    if (item.type === "care") {
+      navigate(`/care`);
     }
   };
 
