@@ -9,8 +9,17 @@ import { Link, useNavigate } from "react-router-dom";
 export default function Footer() {
   const navigate = useNavigate();
 
-  const handleExploreClick = (sectionId) => {
-    navigate(`/#${sectionId}`);
+  const handleExploreClick = (link) => {
+    if(link == "About Us"){
+      navigate("/about")
+    }
+    if(link == "Jewellery Care"){
+      navigate("/care")
+    }
+    if(link == "Blogs"){
+      navigate("/blog")
+    }
+    // navigate(`/#${sectionId}`);
   };
 
   // const [email, setEmail] = useState("");
@@ -31,7 +40,7 @@ export default function Footer() {
     },
   ];
 
-  const exploreLinks = ["LatestJewellery", "Bestsellers", "Trending"];
+  const exploreLinks = ["About Us", "Jewellery Care", "Blogs"];
   const assistanceLinks = [
     "Privacy Policy",
     "Shipping & Returns",
@@ -169,21 +178,21 @@ function FooterColumn({ title, links, basePath, onExploreClick }) {
         {title}
       </h3>
 
-      <ul className="tw:flex tw:flex-col tw:gap-3">
+      <ul className="tw:flex tw:flex-col tw:gap-3 ">
         {links.map((link) => (
           <li key={link}>
             {onExploreClick ? (
               <button
                 type="button"
                 onClick={() => onExploreClick(link)}
-                className="tw:text-sm tw:!text-[#5B5B54] tw:hover:!text-[#0F5C4A] tw:transition-colors tw:text-left"
+                className="tw:text-sm tw:!text-[#5B5B54] tw:hover:!text-[#0F5C4A] tw:transition-colors tw:text-left tw:cursor-pointer"
               >
                 {link}
               </button>
             ) : (
               <Link
                 to={`${basePath}/${toSlug(link)}`}
-                className="tw:text-sm tw:!text-[#5B5B54] tw:hover:!text-[#0F5C4A] tw:transition-colors"
+                className="tw:text-sm tw:!text-[#5B5B54] tw:hover:!text-[#0F5C4A] tw:transition-colors tw:cursor-pointer"
               >
                 {link}
               </Link>
