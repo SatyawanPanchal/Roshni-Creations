@@ -123,25 +123,22 @@ export default function Blogs() {
     <main className="tw:bg-[#FAF7F5] tw:text-[#2D2525]">
       <div className="tw:mx-auto tw:max-w-[1180px] tw:px-5 tw:pb-16 tw:pt-12 tw:md:px-8 tw:md:pt-16">
         {/* ============ A. INTRODUCTION ============ */}
-        <section className="tw:flex tw:items-start tw:justify-between tw:gap-6 tw:pb-10">
-          <div className="tw:max-w-xl">
+        <section className="tw:flex tw:items-center tw:justify-between tw:gap-6 tw:pb-10">
+          <div className="tw:max-w-xl tw:m-auto tw:flex tw:items-center tw:justify-between tw:flex-col">
             <Label>The Roshni Journal</Label>
             <h1
               style={SERIF}
-              className="tw:mt-5 tw:text-[2.4rem] tw:font-medium tw:leading-[1.1] tw:text-[#2D2525] tw:md:text-[3.2rem]"
+              className="tw:mt-5 tw:text-[1.5rem] tw:font-medium tw:leading-[1.1] tw:text-center tw:text-[#2D2525] tw:md:text-[3.2rem]"
             >
               A little inspiration goes a long way.
             </h1>
             <p
               style={SERIF}
-              className="tw:mt-6 tw:max-w-md tw:text-lg tw:leading-relaxed tw:text-[#2D2525]/70"
+              className="tw:mt-6 tw:max-w-md tw:text-sm tw:md:text-lg tw:leading-relaxed tw:text-[#2D2525]/70 tw:text-center"
             >
               Jewellery styling, thoughtful gifting and practical guides for the
               pieces you love.
             </p>
-          </div>
-          <div className="tw:h-32 tw:w-24 tw:shrink-0 tw:md:h-52 tw:md:w-40">
-            {/* <BotanicalLine /> */}
           </div>
         </section>
 
