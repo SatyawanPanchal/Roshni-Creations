@@ -49,6 +49,8 @@ import Feedback from "./admin/pages/Feedback/Feedback";
 
 import AboutPage from "./pages/AboutPage";
 import JewelleryCare from "./pages/JewelleryCare";
+import Blogs from "./pages/Blogs";
+import ArticleDetail from "./pages/ArticleDetail";
 
 // ============================================================
 // CUSTOMER LAYOUT
@@ -153,6 +155,8 @@ const App = () => {
 
           <Route path="/about" element={<AboutPage/>}/>
           <Route path="/care" element={<JewelleryCare/>}/>
+          <Route path="/blogs" element={<Blogs/>}/>
+          <Route path="/journal/:slug" element={<ArticleDetail />} />
         </Route>
 
         {/* ==================================================

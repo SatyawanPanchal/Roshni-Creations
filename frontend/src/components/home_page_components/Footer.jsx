@@ -17,7 +17,7 @@ export default function Footer() {
       navigate("/care")
     }
     if(link == "Blogs"){
-      navigate("/blog")
+      navigate("/blogs")
     }
     // navigate(`/#${sectionId}`);
   };
